@@ -10,7 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install the required packages
-      run: apt-get update && apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-pictures texlive-science && apt-get clean
+      run: |
+        sudo apt-get update 
+        sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-pictures texlive-science 
+        sudo apt-get clean
     - name: Build the Thesis
       run: make
     - uses: actions/upload-artifact@master
