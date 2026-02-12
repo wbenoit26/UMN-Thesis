@@ -16,7 +16,7 @@ jobs:
         sudo apt-get clean
     - name: Build the Thesis
       run: make
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v4
       with:
         name: Compiled Thesis
         path: ./thesis.pdf
