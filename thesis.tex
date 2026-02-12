@@ -7,6 +7,8 @@
 \usepackage{eepic} % Extensions for epic
 \usepackage{url} % URL handling
 \usepackage{longtable} % Tables that continue onto multiple pages
+\usepackage{threeparttable}
+\usepackage[table]{xcolor}
 \usepackage{mathrsfs} % Support for \mathscr script
 \usepackage{multirow} % Span rows in tables
 \usepackage{bigstrut} % Space struts in tables up and down
@@ -38,13 +40,14 @@
     preliminaries/title,
     chapters/intro,
     chapters/aframe_methods,
-    chapters/science,
-    chapters/experiment,
-    chapters/simulation,
-    chapters/reconstruction,
-    chapters/data_set,
-    chapters/event_selection,
-    chapters/analysis,
+    chapters/o3_catalog,
+    % chapters/science,
+    % chapters/experiment,
+    % chapters/simulation,
+    % chapters/reconstruction,
+    % chapters/data_set,
+    % chapters/event_selection,
+    % chapters/analysis,
     chapters/conclusion,
     chapters/app_glossary,
 }
@@ -65,18 +68,19 @@
 \include{chapters/intro}
 
 %Base Chapters
-\include{chapters/science}
-\include{chapters/experiment}
+% \include{chapters/science}
+% \include{chapters/experiment}
 
 %Software Chapters
-\include{chapters/simulation}
-\include{chapters/reconstruction}
+% \include{chapters/simulation}
+% \include{chapters/reconstruction}
 \include{chapters/aframe_methods}
+\include{chapters/o3_catalog}
 
 %Analysis Chapters
-\include{chapters/data_set}
-\include{chapters/event_selection}
-\include{chapters/analysis}
+% \include{chapters/data_set}
+% \include{chapters/event_selection}
+% \include{chapters/analysis}
 
 %Conclusion
 \include{chapters/conclusion}

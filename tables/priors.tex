@@ -1,0 +1,26 @@
+\begin{table}
+\centering
+\footnotesize
+\begin{tabular*}{\columnwidth}{ p{4cm} p{1.5cm} p{1.75cm} p{1.5cm} }
+\hline
+\hline
+Parameter & Prior & Limits & Units\\
+\hline
+Mass of primary ($m_1$) & $m_1^{-2.35}$ & $[5, 100]$ & $M_{\odot}$\\
+Mass of secondary ($m_2$) & $m_2$ & $[5, m_1]$ & $M_{\odot}$\\
+Redshift ($z$) & Comoving & $[0, 2]$ & -\\
+Polarization angle ($\psi$) & Uniform & $[0, \pi]$ & rad.\\
+Spin magnitude ($a_1$, $a_2$) & Uniform & $[0, 0.998]$ & -\\
+Spin tilt ($\theta_1$, $\theta_2$) & Sine & $(0, \pi)$ & rad.\\
+Spin azimuthal angle ($\phi_{12}$) & Uniform & $[0, 2\pi]$ & rad.\\
+Spin phase angle ($\phi_{JL}$) & Uniform & $[0, 2\pi]$ & rad.\\
+Orbital phase ($\phi_{c}$) & Uniform & $[0, 2\pi]$ & rad.\\
+Right ascension ($\alpha$) & Uniform & $[0, 2\pi]$ & rad.\\
+Declination ($\delta$) & Cosine & $[-\pi/2, \pi/2]$ & rad.\\
+Inclination angle ($\theta_{JN}$) & Sine & $[0, \pi]$ & rad.\\
+\hline
+\hline
+\end{tabular*}
+\caption{Priors on parameters used to generate waveforms for both the training and testing sets. The prior is derived from that used in GWTC-3 to assess search pipeline sensitivity. The component mass distributions are defined in the source frame. ``Comoving" refers to uniform in comoving volume.}
+\label{table:priors}
+\end{table}
