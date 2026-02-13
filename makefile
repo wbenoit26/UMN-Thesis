@@ -8,6 +8,7 @@ HELPER_FILES= makefile mnthesis.cls
 PRELIMS:=$(wildcard preliminaries/*.tex)
 CHAPTERS:=$(wildcard chapters/*.tex)
 FIGURES := $(wildcard figures/*)
+TABLES := $(wildcard tables/*)
 
 # Tell make what our reserved target names are
 #
@@ -19,7 +20,7 @@ FIGURES := $(wildcard figures/*)
 all: $(MAIN_PDF)
 
 # Instructions to make the main pdf
-$(MAIN_PDF): ALWAYS_COMPILE $(MAIN_TEX) $(HELPER_FILES) $(PRELIMS) $(CHAPTERS) $(FIGURES)
+$(MAIN_PDF): ALWAYS_COMPILE $(MAIN_TEX) $(HELPER_FILES) $(PRELIMS) $(CHAPTERS) $(FIGURES) $(TABLES)
 	$(LATEXMK) -pdf $(MAIN_TEX)
 
 # Clean up all the regeneratable files except for the final document (the .pdf)
