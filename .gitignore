@@ -13,7 +13,7 @@ thesis.pdf
 .nfs*
 
 ##Github VIM Ignore
-*.s[a-w][a-z]
+# *.s[a-w][a-z]
 *.un~
 Session.vim
 .netrwhist
