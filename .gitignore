@@ -3,6 +3,7 @@ thesis.pdf
 *.fls
 *.xml
 *-blx.bib
+**/bilby_cache
 
 #Binary and Image
 *.exe
