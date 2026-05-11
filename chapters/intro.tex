@@ -207,6 +207,58 @@ Because of this, burst-search algorithms such as coherent WaveBurst (cWB~\cite{K
 \section{LIGO Detectors}
 \label{intro_sec:detectors}
 
+The Laser Interferometer Gravitational-wave Observatory (LIGO) consists of two large-scale interferometric detectors located in Hanford, Washington and Livingston, Louisiana~\cite{Aasi_2015}.
+Each detector is a Michelson interferometer with 4\,km-long arms that measure the differential change in length caused by passing gravitational waves.
+When a GW with amplitude $h$ passes through the detector, it produces a differential strain $\Delta L/L = h/2$ in each arm, where $L = 4$\,km.
+The detectors are designed to measure strains as small as $h \sim 10^{-23}\,\mathrm{Hz}^{-1/2}$ near their most sensitive frequencies, corresponding to a change in arm length of $\sim 10^{-20}\,\mathrm{m}$, many orders of magnitude smaller than the diameter of a proton.
+
+Several enhancements to the basic Michelson design are used to achieve this sensitivity; here I describe a few of the most significant features, though there are many more that are not discussed here.
+The arm cavities contain Fabry-Perot resonators, in which light bounces between two highly reflective mirrors many hundreds of times before exiting.
+This increases the effective path length of the interferometer, allowing the GW-induced phase shift to accumulate over a longer distance and thus increase the detector's sensitivity to GWs.
+Because the detectors operate near a dark fringe, almost all light is reflected toward the laser.
+A power recycling mirror, placed between the laser and the beam splitter, reflects this light back into the beam arms, increasing the circulating power in the arms by a factor of $\sim 40$~\cite{Izumi_2017} and reducing shot noise.
+Similar to the power recycling mirror, a signal recycling mirror is placed between the beam splitter and the photodetector at the output port of the interferometer.
+This mirror forms a resonant cavity with the arm cavities, and tuning the size of this cavity allows the detector's frequency response to be modified.
+In practice, the signal recycling cavity is tuned to broaden the detector's bandwidth, improving sensitivity at high frequencies at the cost of some sensitivity at low frequencies~\cite{Aasi_2015}.
+These features are shown in Fig.~\ref{intro_fig:ligo_layout}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/ligo_layout.pdf}
+    \caption[Optical layout of the Advanced LIGO interferometer]
+    {
+        Schematic of the Advanced LIGO interferometer, showing the Fabry-Perot arm cavities, power recycling mirror (PRM), signal recycling mirror (SRM), and the main optical path from laser to photodetector.
+        Reproduced from Fig.~1 of Ref.~\cite{o4_performance}.
+    }
+    \label{intro_fig:ligo_layout}
+\end{figure}
+
+The sensitivity of the LIGO detectors is limited by different noise sources in different frequency bands~\cite{o4_performance}.
+At low frequencies ($\lesssim 50$\,Hz), the dominant noise source controls noise from suspension damping, though the Livingston detector noise also has a significant contribution from seimic activity in this frequency range.
+At intermediate frequencies (roughly 50--500\,Hz), the noise is dominated by a combination of thermal fluctuations in the mirror coatings and quantum shot noise, the statistical uncertainty in the number of photons detected at the output photodetector.
+At high frequencies ($\gtrsim 500$\,Hz), the sensitivity is limited almost entirely by quantum shot noise.
+The amplitude spectral density of the LIGO detectors during O4a, along with the Advanced LIGO design sensitivity, is shown in Fig.~\ref{intro_fig:asd_comparison}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/asd_comparison.pdf}
+    \caption[Amplitude spectral density of the LIGO Hanford and Livingston detectors during O4a]{Amplitude spectral density of the LIGO Hanford (H1) and Livingston (L1) detectors estimated from a 2048-second segment during the fourth observing run (O4a), compared to the Advanced LIGO design sensitivity. 
+    The most significant peaks come from the violin modes of the fused silica suspension fibers, with the fundamental frequency just below 500\,Hz and harmonics at integer multiples~\cite{Aston_2012}.}
+    \label{intro_fig:asd_comparison}
+\end{figure}
+
+Beginning with the fourth observing run, Advanced LIGO employs frequency-dependent squeezed light injection to further reduce quantum noise~\cite{Tse_2019}.
+Squeezed states of light reduce the quantum uncertainty in the phase quadrature below the vacuum level, lowering shot noise at high frequencies.
+Frequency-dependent squeezing, achieved by rotating the squeezing ellipse as a function of frequency using an external filter cavity, allows simultaneous reduction of shot noise at high frequencies and quantum radiation pressure noise at low frequencies.
+This technique has contributed measurably improved sensitivity across the detector band in O4 relative to O3.
+
+Operating multiple detectors simultaneously is essential for gravitational wave astronomy.
+A network of geographically separated detectors can localize a source through triangulation based on the differences in arrival time between detectors, with each additional detector providing more information for localization.
+The LIGO detectors have been joined by the Advanced Virgo detector in Cascina, Italy~\cite{Acernese_2015}, and the KAGRA detector in Kamioka, Japan~\cite{kagra}, forming a multi-detector network.
+Unlike optical telescopes, these ground-based detectors are broadly omnidirectional, but individual detectors have blind spots where the antenna response vanishes.
+Non-co-located, non-co-aligned detectors in a network fill in these blind spots and ensure that sources near any single detector's null direction can still be detected and localized by the full network.
+Sky localization with this network enables electromagnetic follow-up observations of GW events, one of the primary scientific motivations for the low-latency methods developed in this dissertation.
+
 \section{Matched Filtering}
 \label{intro_sec:matched_filter}
 
