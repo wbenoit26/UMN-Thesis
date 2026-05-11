@@ -202,7 +202,31 @@ Because of this, burst-search algorithms such as coherent WaveBurst (cWB~\cite{K
 
 \subsection{Rapidly rotating neutron stars}
 
+A neutron star that is asymmetric about its axis of rotation will emit continuous, nearly-monochromatic gravitational waves at twice its spin frequency.
+The GW strain amplitude is
+\begin{equation}
+    h_0 = \frac{16\pi^2 G}{c^4} \frac{I_{zz} \epsilon f_{\rm rot}^2}{d},
+\end{equation}
+where $I_{zz}$ is the principal moment of inertia, $\epsilon = (I_{xx} - I_{yy})/I_{zz}$ is the equatorial ellipticity, $f_{\rm rot}$ is the rotational frequency of the neutron star, and $d$ is the distance to the source~\cite{2009ASSL..357.....B}.
+Continuous wave signals are individually far below the noise floor of any single detector, so detection requires coherently integrating data over months to years to accumulate signal power.
+This long integration time makes searches computationally intensive, particularly for all-sky surveys where the spin frequency, spin-down rate, and sky position are all unknown~\cite{Brady_1998}.
+Targeted searches for known pulsars~\cite{Abbott_2017_continuous}, directed searches toward promising sky locations (e.g., the galactic center or the remnant of SN\,1987A)~\cite{PhysRevLett.118.121102}, and hierarchical all-sky methods~\cite{EinsteinAtHome_2009} trade sensitivity for computational efficiency.
+To date, no detection of a continuous gravitational wave signal has been reported.
+
 \subsection{Stochastic background}
+
+The stochastic gravitational wave background (SGWB) is the superposition of a large number of individually unresolvable GW sources throughout the universe.
+It is characterized by its dimensionless energy density spectrum
+\begin{equation}
+    \Omega_{\rm GW}(f) = \frac{f}{\rho_c} \frac{d\rho_{\rm GW}}{df},
+\end{equation}
+where $\rho_{\rm GW}$ is the gravitational wave energy density, $\rho_c = 3H_0^2 / (8\pi G)$ is the critical energy density of the universe, and $H_0$ is the Hubble constant.
+The SGWB is expected to be an approximately stationary, Gaussian noise-like signal.
+Therefore, in any single detector, it is indistinguishable from instrumental noise.
+Searches for the SGWB instead use the cross-correlation between detectors: a common GW background produces correlated strain in each detector whose magnitude is described by the overlap reduction function $\gamma(f)$.
+The optimal cross-correlation estimator integrates this signal over long observation times, with sensitivity improving as $T^{1/2}$~\cite{AlRo1999}.
+Recent observations by pulsar timing arrays (PTAs) have reported evidence for a SGWB at nHz frequencies, consistent with the expected Hellings-Downs spatial correlation pattern~\cite{NANOGrav_2023}, marking the first indirect detection of a stochastic gravitational wave signal.
+In the sensitive band of the LIGO detectors, the astrophysical CBC background is predicted to be near or below current sensitivity, and no detection has been reported~\cite{o4_stochastic}.
 
 \section{LIGO Detectors}
 \label{intro_sec:detectors}
