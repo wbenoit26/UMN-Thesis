@@ -309,7 +309,6 @@ The regions are defined as:
     R_{\mathrm{BNS}} = \{ \theta : m_1 <3, m_2 < 3\} \\ 
     R_{\mathrm{NSBH}} = \{ \theta: m_1 > 3, m_2 < 3\}
 \end{align}
-
 where $m_1 > m_2$ by definition.
 
 During O4c, \aframe's $p_{\mathrm{astro}}$ model assigned all astrophysical probability to the BBH class, which is appropriate given that \aframe was trained exclusively on BBH signals.
@@ -333,7 +332,6 @@ Each quantity can be estimated by integrating the posterior over the appropriate
 \begin{equation}
     p(X) = \int_{R_X} p(\theta |d) d\theta \approx \frac{1}{N}\sum_{i=1}^{N}\mathbf{1}_{R_X}(\theta^{(i)})
 \end{equation}
-
 \noindent where $N$ is the number of posterior samples produced by \amplfi, $\theta^{(i)}$ is the $i^{th}$ sample, and $\mathbf{1}_{R_X}$ is the indicator function over region $R_X$. The regions are defined as
 
 \begin{align}
