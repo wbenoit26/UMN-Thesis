@@ -381,6 +381,16 @@ This is accomplished via Bayes' theorem:
 \end{equation}
 where $\mathcal{L}(d \mid \boldsymbol{\theta})$ is the likelihood of the data given a signal with parameters $\boldsymbol{\theta}$, $\pi(\boldsymbol{\theta})$ is the prior distribution encoding knowledge and assumptions about the source population, and $p(d) = \int \mathcal{L}(d \mid \boldsymbol{\theta})\, \pi(\boldsymbol{\theta})\, d\boldsymbol{\theta}$ is the evidence, which normalizes the posterior.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.65\textwidth]{figures/pe_corner.pdf}
+    \caption[Bayesian parameter estimation posteriors for a simulated binary black hole signal]{Corner plot of the marginalized posterior distributions for a simulated GW150914-like binary black hole signal ($m_1 = 36\,M_\odot$, $m_2 = 29\,M_\odot$, $d_L = 410\,\mathrm{Mpc}$), inferred using the Bilby PE framework with an IMRPhenomD likelihood and the dynesty nested sampler. 
+    The diagonal panels show 1D marginal posteriors with 68\% credible intervals marked; the off-diagonal panels show 2D marginals at the 68\% and 95\% credible levels. 
+    Red lines indicate the injected parameter values. 
+    }
+    \label{intro_fig:pe_corner}
+\end{figure}
+
 Assuming a network of detectors with stationary Gaussian noise, the log-likelihood takes the form
 \begin{equation}
     \ln \mathcal{L}(d \mid \boldsymbol{\theta}) = -\frac{1}{2} \sum_k \langle d_k - h_k(\boldsymbol{\theta}) \mid d_k - h_k(\boldsymbol{\theta}) \rangle,
@@ -391,16 +401,6 @@ Standard approaches use stochastic sampling algorithms, such as Markov chain Mon
 The LVK PE codes LALInference~\cite{lalinference_paper} and Bilby~\cite{Ashton_2019} implement these samplers, typically requiring $\mathcal{O}(10^7)$ likelihood evaluations and times of hours to days per event.
 An example of the resulting posterior is shown in Fig.~\ref{intro_fig:pe_corner}: the chirp mass is constrained to a fraction of a solar mass, while the mass ratio, luminosity distance, and inclination each carry substantially larger fractional uncertainties.
 This computational cost is the primary obstacle to rapid source characterization following a GW detection, and motivates the machine learning approach presented in this dissertation.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{figures/pe_corner.pdf}
-    \caption[Bayesian parameter estimation posteriors for a simulated binary black hole signal]{Corner plot of the marginalized posterior distributions for a simulated GW150914-like binary black hole signal ($m_1 = 36\,M_\odot$, $m_2 = 29\,M_\odot$, $d_L = 410\,\mathrm{Mpc}$), inferred using the Bilby PE framework with an IMRPhenomD likelihood and the dynesty nested sampler. 
-    The diagonal panels show 1D marginal posteriors with 68\% credible intervals marked; the off-diagonal panels show 2D marginals at the 68\% and 95\% credible levels. 
-    Red lines indicate the injected parameter values. 
-    }
-    \label{intro_fig:pe_corner}
-\end{figure}
 
 \section{Machine Learning for Gravitational-Wave Astronomy}
 \label{intro_sec:ml}
