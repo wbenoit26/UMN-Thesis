@@ -51,29 +51,31 @@ This deployment demonstrates that machine learning methods are sufficiently matu
 
 \section{Outlook}
 
-Several extensions of this work are already underway; others represent longer-horizon priorities.
+Several extensions of this work are underway, and plans are being developed for longer-term improvements.
 
-On the detection side, the most significant limitation of the current \aframe implementation is the requirement that both LIGO Hanford and Livingston be operating simultaneously.
-Development of multi-detector configurations --- supporting arbitrary detector subsets including three-detector, single-detector, and heterogeneous network modes --- will increase the fraction of observing time for which \aframe can contribute.
-An extension of the training mass distribution to lower-mass systems, including binary neutron star and neutron star--black hole mergers, will make the search relevant for the events most likely to have electromagnetic counterparts and yield the most multi-messenger science.
-Extending \aframe to BNS systems poses a fundamental signal-duration challenge: a 1.4+1.4\,$M_\odot$ BNS inspiral spends 60--120 seconds in the LIGO sensitive band, far exceeding the 1.5-second input windows on which the current model operates.
-One experimental approach under investigation evaluates each input window in the frequency domain against a log-normally spaced grid of chirp mass hypotheses --- approximately 100 templates per window --- using heterodyning to shift each template to baseband, where the slowly evolving signal envelope can be matched efficiently with a compact inner product.
-Whether this approach can be made computationally cheap enough for real-time operation remains an open question, but initial experiments are encouraging.
+On the detection side, the most significant limitation of the current \aframe implementation is poor sensitivity to lower-mass BBH systems, and near-total blindness to NSBH and BNS mergers.
+Extending the detectable mass range to include these systems is a high priority, as they are more likely to have electromagnetic counterparts than BBH mergers.
+However, enabling \aframe to detect these systems with competitive sensitivity will require significant algorithmic and architectural changes, as the longer signal durations ($\sim 60--120$ s) and lower SNRs of these systems pose challenges for the current model.
+One approach currently being investigated involves heterodyning the input window with templates created from a log-normally spaced grid of 100 chirp mass, effectively compressing the long-duration signal representation into a size compatible with \aframe's existing architecture.
+This approach is significantly more computationally intensive than the current method, and it remains an open question whether this approach can be made efficient enough for real-time operation, but initial experiments are encouraging.
+A longer-term goal is to allow \aframe to support arbitrary detector combinations, including single-detector and three-detector modes, with the inclusion of Virgo and KAGRA.
+The primary challenges for this extension are the asymmetric sensitivity and noise properties of the different detectors, as well as the potential requirement for training separate models for all possible detector combinations.
+Still, these are important problems to address, as the current two-detector implementation of \aframe is limited to analyzing data from both LIGO Hanford and Livingston, which limits the fraction of observing time for which \aframe can contribute to the search.
 
-On the parameter estimation side, extending \amplfi to binary neutron star and neutron star--black hole systems is a natural next step given the scientific priority of multi-messenger follow-up.
-The longer signal durations and richer parameter spaces of these systems will require dedicated training datasets and may motivate architectural changes to the normalizing flow.
-A heterodyning-based approach analogous to that described above for detection is also being explored on the parameter estimation side, compressing long BNS signal representations into a form compatible with \amplfi's existing input window; this work is at an earlier stage than the detection-side development.
-Future versions may also incorporate spin-precessing waveform models beyond IMRPhenomD and could support burst signal morphologies, enabling collaboration with unmodeled event search pipelines.
+On the parameter estimation side, extending \amplfi to binary neutron star and neutron star--black hole systems is the main focus of future developments given the scientific priority of multi-messenger follow-up.
+A heterodyning-based approach analogous to that described above for detection is also being explored on the parameter estimation side, compressing long BNS signal representations into a form compatible with \amplfi's existing input window.
+Future versions may also incorporate waveform physics beyond that present in IMRPhenomPv2 and could support burst signal morphologies, enabling collaboration with unmodeled event search pipelines, ML-based or otherwise.
+Beyond parameter space expansions, improvements to \amplfi's precision via importance sampling are also being investigated, which could enable \amplfi to produce posteriors comparable in precision to those from Bilby at the cost of a small latency penalty.
 
-On the deployment side, integrating a distributed task orchestration framework such as Ray or Celery will improve fault tolerance by allowing failed sub-tasks to be retried independently without restarting the entire pipeline.
-Several latency reductions have already been made following O4c.
-The post-resampling crop was tightened from a conservative 1-second buffer to one based on the filter's transient length (typically less than 0.2 seconds), recovering resampling latency without modifying the underlying filter.
-Also in active development is an auxiliary regression head for \aframe to directly output a merger time estimate, which would eliminate the top-hat integration step used to locate the coalescence time.
-Longer-horizon improvements include replacing the current symmetric (zero-phase) whitening filter with a causal (minimum-phase) implementation to eliminate the latency introduced by the whitening step, and extending the detector network to include Virgo, which would broaden sky localization coverage for three-detector events.
-Infrastructure improvements outside the pipeline will also reduce latency: the next-generation data delivery (NGDD) system, currently in development for future observing runs, will deliver data in 1/16-second chunks rather than 1-second frames, reducing the discrete packet latency, and will deliver each chunk immediately rather than waiting for all auxiliary channels to be ready, reducing the data preparation and transfer latency.
+On the deployment side, integrating a distributed task orchestration framework such as Ray or Celery will improve fault tolerance by allowing failed sub-tasks to be retried independently without restarting the entire pipeline, and will enable more robust monitoring of the search.
+There are also several avenues for reducing pipeline latency.
+The post-resampling crop has already been tightened from a conservative 1-second buffer to one based on the filter's transient length of around 2 milliseconds, recovering resampling latency without modifying the underlying filter.
+Also in active development is an auxiliary regression head for \aframe to directly output a merger time estimate, which would eliminate the top-hat integration step used to locate the coalescence time and recover the latency taken up by waiting for future data to exist so that integration can complete.
+Longer-horizon improvements include replacing the current symmetric whitening filter with a causal implementation to eliminate the latency introduced by the whitening step, and accelerating the parameter estimation post-processing steps to submit data products for public alerts more quickly.
+Infrastructure improvements outside the pipeline will also reduce latency: the next-generation data delivery system, currently in development for future observing runs, will deliver data in 1/16-second chunks rather than 1-second frames, reducing the discrete packet latency, and will deliver each chunk immediately rather than waiting for all auxiliary channels to be ready, reducing the data preparation and transfer latency.
 
-Looking further ahead, the next generation of ground-based detectors --- Cosmic Explorer and the Einstein Telescope --- are expected to detect hundreds of thousands of compact binary mergers per year at far greater distances than current instruments can reach.
+Looking further ahead, the next generation of ground-based detectors -- Cosmic Explorer and the Einstein Telescope -- are expected to detect hundreds of thousands of compact binary mergers per year at far greater distances than current instruments can reach.
 At those event rates, machine learning methods will likely be essential infrastructure rather than merely an alternative to matched filtering.
-The algorithms, software frameworks, and operational experience developed in this dissertation provide a foundation for meeting that challenge.
+The algorithms, software frameworks, and operational experience developed in this dissertation provide a foundation for meeting that demand.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
