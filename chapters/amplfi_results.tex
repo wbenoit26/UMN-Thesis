@@ -8,7 +8,8 @@ Machine learning-based detection and parameter estimation algorithms are emergin
 Here, we report validation studies of \amplfi, a likelihood-free inference solution to low-latency parameter estimation of binary black holes. 
 We use simulated signals added into data from the LIGO-Virgo-KAGRA's (LVK's) third observing run (O3) to compare sky localization performance with BAYESTAR, the algorithm currently in production for rapid sky localization of candidates from matched-filter pipelines. 
 We demonstrate sky localization area performance comparable to BAYESTAR, and find that \amplfi provides tighter searched volume constraints. 
-We show accurate reconstruction of source parameters with uncertainties for use in distributing low-latency coarse-grained chirp mass information. In addition, we analyze several candidate events reported by the LVK in the third gravitational-wave transient catalog (GWTC-3) and show consistency with the LVK's analysis. 
+We show accurate reconstruction of source parameters with uncertainties for use in distributing low-latency coarse-grained chirp mass information. 
+In addition, we analyze several candidate events reported by the LVK in the third gravitational-wave transient catalog (GWTC-3) and show consistency with the LVK's analysis. 
 Altogether, we demonstrate \amplfi's ability to produce data products for low-latency public alerts.
 
 
@@ -503,10 +504,6 @@ Broadening the parameter space to include neutron star black hole and binary neu
 For BNS signals that can last for minutes in the detectors' sensitive band, utilizing data compression methods will be important. 
 In addition, exploring parameterizations of the CBC signal parameter space that eliminate known degeneracies could help the learning process~\cite{Roulet_2022}. 
 For example, training \amplfi to infer chirp distance~\cite{Brady_2008} instead of luminosity distance could help alleviate the distance prior railing exhibited in \amplfi's analysis of several real candidates.
-
-With \amplfi's performance validated on O3 data, the \aframe and \amplfi algorithms could be combined into a single production pipeline.
-Chapter~\ref{chap:online} describes the software architecture used to deploy this system in real time during O4c.
-
 
 
 % HLV examples

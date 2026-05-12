@@ -6,44 +6,48 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The work presented in this dissertation introduces two machine learning algorithms, \aframe and \amplfi, and documents their development, validation, and real-time deployment as an end-to-end gravitational wave search and parameter estimation pipeline.
-The central demonstration is that machine learning methods can achieve sensitivity competitive with traditional matched-filter searches for compact binary coalescences while delivering alerts and skymaps at latencies that are orders of magnitude lower.
-Together, \aframe and \amplfi represent the first demonstration of an end-to-end machine learning pipeline for gravitational waves operating in a live observing run.
+The central demonstration is that machine learning methods can achieve sensitivity competitive with traditional matched-filter searches for binary black hole mergers while delivering accurate posteriors and skymaps at latencies that are orders of magnitude lower.
+Together, \aframe and \amplfi represent the first implementation of an end-to-end machine learning pipeline for gravitational waves operating in a live observing run.
 
-Beyond these immediate results, this dissertation addresses a question that has remained open since the first applications of machine learning to gravitational-wave detection: whether such methods are mature enough to be trusted in a production environment alongside the established pipelines that have shaped the field.
-Meeting this standard requires more than demonstrating competitive sensitivity in controlled experiments.
-It requires handling the practical demands of continuous operation: data quality variation, non-stationary noise, fault tolerance, and multi-messenger data product generation.
-By designing \aframe and \amplfi around these operational requirements and validating them against matched-filter searches on real observing data, this work provides a template for how machine learning pipelines can be developed and deployed responsibly in gravitational-wave astronomy.
+This dissertation also addresses the question of whether such methods are mature enough to be trusted in a production environment alongside the established pipelines that have shaped the field.
+Meeting this standard requires more than demonstrating competitive performance in controlled experiments with proof-of-concept implementations.
+It requires handling the practical demands of low-latency operation: integration with existing infrastructure, process monitoring and duty cycle requirements, error handling, and real-time human oversight of detected events.
+By designing \aframe and \amplfi around these operational requirements and validating them against matched-filtering searches on real observing data, this work provides a template for how machine learning pipelines can be developed and deployed responsibly in gravitational-wave astronomy.
 
 \section{Summary of Contributions}
 
-Chapter~\ref{chap:aframe_methods} introduced \aframe, a convolutional neural network trained to detect compact binary coalescence signals in two-detector strain data from LIGO.
-Rather than evaluating a large template bank as in matched-filter searches, \aframe processes overlapping 1.5-second windows of coincident Hanford and Livingston strain data in real time to produce a scalar detection statistic.
-The key technical contributions include a data augmentation strategy that enables the network to generalize to a wide range of signal morphologies and noise conditions, and an efficient GPU-based inference deployment capable of analyzing data continuously.
-To enable direct comparison with matched-filter searches, we developed a sensitive volume metric that places ML and traditional pipelines on equal footing.
-Evaluated on a test set drawn from the third observing run, \aframe identified 8 of 9 GWTC-3 astrophysical candidates at false alarm rates below 1 per year --- the minimum achievable given the test set duration --- while reporting zero non-catalog events at false alarm rates below 5 per month.
+Chapter~\ref{chap:aframe_methods} introduced \aframe, a convolutional neural network trained to detect compact binary coalescences in two-detector strain data from LIGO.
+In contrast to matched-filtering searches, which evaluate a large bank of signal templates, \aframe processes overlapping 1.5-second windows of coincident Hanford and Livingston strain data in real time to produce a scalar detection statistic.
+The key technical developments include a robust data augmentation strategy that enables the network to generalize to a wide range of signal morphologies and noise conditions; GPU implementations of common GW data processing tasks, enabling training on large datasets; and an efficient inference-as-a-service deployment capable of analyzing long streams of data on a practical timescale.
+We presented the first comparison between machine learning and matched-filtering searches using the same sensitive volume metric reported by the LVK, demonstrating that \aframe achieves competitive sensitivity to binary black hole mergers, while 
+also noting that there remain avenues for improving sensitivity to lower-mass systems.
+Evaluated on the zero-lag test set from the third observing run, \aframe identified 8 of the 9 GWTC-3 candidates at false alarm rates below 1 per year, the minimum achievable given the duration of timeslides analyzed.
+Further, no non-catalog events were reported at false alarm rates below 5 per month, the threshold used for public alerts during O3.
 
-Chapter~\ref{chap:o3_catalog} presented the results of applying \aframe to the full O3 data set as an end-to-end search.
-This analysis recovered 38 events from GWTC-3 with $p_\mathrm{astro} > 0.5$, together with 2 additional candidates from the IAS catalog and 1 from the OGC catalog --- a count comparable to that reported by individual matched-filter pipelines operating on the same data.
-Of the 15 GWTC-3 candidates not recovered by \aframe, 5 had secondary masses below $5\,M_\odot$ and fell outside the training prior; the remaining 10 had network matched-filter SNRs below 12.6.
+Chapter~\ref{chap:o3_catalog} presented the results of applying \aframe to the full O3 data set.
+This analysis recovers 38 events from GWTC-3 with $p_\mathrm{astro} > 0.5$, as well as 2 additional candidates from the IAS catalog and 1 from the OGC catalog, a count which is comparable to that reported by individual matched-filter pipelines operating on the same data.
+Of the 15 GWTC-3 candidates not recovered by \aframe at any significance, 5 had secondary masses below $5\,M_\odot$ and fell outside the training prior, while the remaining 10 had network matched-filter SNRs below 12.6.
 Parameter estimation was also performed on the IAS and OGC candidates using Bilby with the IMRPhenomXPHM waveform approximant, yielding posteriors broadly consistent with those reported by the respective catalogs.
-The O3 search demonstrated competitive sensitivity to high-mass binary black hole mergers while also revealing the current model's limitations: reduced sensitivity at lower component masses, and a requirement for simultaneous operation of both LIGO detectors.
+The O3 search validated the results of Chapter~\ref{chap:aframe_methods} on real data and established \aframe as a viable search pipeline for compact binary mergers, while also highlighting the need to improve sensitivity to lower-mass systems.
 
 Chapter~\ref{chap:amplfi_methods} introduced \amplfi, a likelihood-free inference algorithm for rapid parameter estimation.
-\amplfi uses a normalizing flow trained to estimate posterior distributions over source parameters --- including chirp mass, mass ratio, and sky location --- conditioned on strain data from both LIGO detectors.
-The algorithm produces posterior samples in under two seconds from the time of a detection trigger, achieving an end-to-end latency of approximately six seconds including detection, significance evaluation, parameter estimation, and sky map generation.
-A major technical contribution is the implementation of compact binary waveform generation directly on GPU, enabling on-the-fly waveform simulation during training at negligible computational cost.
-\amplfi was designed for co-deployment with \aframe on shared GPU hardware, minimizing communication overhead and enabling the full pipeline latency demonstrated here.
+\amplfi uses a normalizing flow trained to estimate posterior distributions over source parameters, including chirp mass, mass ratio, and sky location, conditioned on strain data from both LIGO detectors.
+We find that \amplfi posteriors are unbiased and the resulting sky maps are similar to those produced by BAYESTAR, the standard low-latency sky localization algorithm, with no significant differences in the areas of 90\% credible regions for well-localized events.
+The algorithm produces posterior samples in under one second from the time of a detection trigger, achieving an end-to-end latency of approximately six seconds including detection, significance evaluation, parameter estimation, and sky map generation.
+\amplfi was designed for co-deployment with \aframe on a shared GPU, minimizing communication overhead and enabling the full pipeline latency demonstrated here.
+The combination of algorithms represents a pipeline capable of participating in the low-latency alert stream alongside traditional matched-filter pipelines. 
 
-Chapter~\ref{chap:amplfi_results} validated \amplfi against established methods using data from O3.
-Comparisons with BAYESTAR, the standard low-latency sky localization algorithm, show that \amplfi produces sky maps of comparable quality for well-localized events.
-Comparisons of recovered source parameter posteriors with those from GWTC-3 demonstrate broad consistency, including cases where posterior support extends near or beyond the boundaries of the training prior.
+Chapter~\ref{chap:amplfi_results} introduced a number of improvements to \amplfi, including the use of multi-modal training data and the inclusion of Virgo data, and  validated it against established methods using both mock data and real data from O3.
+Comparisons with BAYESTAR on the mock data stream show that \amplfi produces a similar sky localization area and tighter searched volume constraints.
+Additionally, we find that \amplfi posteriors for real events from O3 are broadly consistent with those from Bilby, though less precise, while being orders of magnitude faster.
+This includes cases where posterior support extends near or beyond the boundaries of the training prior.
+Overall, \amplfi's performance demonstrates its ability to produce data products for low-latency public alerts.
 
-Chapter~\ref{chap:online} described the integration of \aframe and \amplfi into a production pipeline and the deployment of this pipeline during the final segment of LIGO's fourth observing run, O4c, from August 28 to November 25, 2025.
-Of the 24 compact binary events for which data from both Hanford and Livingston were available, \aframe detected 23 (96\%).
-The single non-detection was due to a computing infrastructure failure that prevented data delivery to the pipeline, rather than a limitation of the algorithm.
-For 9 events where \aframe was the preferred pipeline at the time of the preliminary alert, \amplfi sky maps were distributed to the astronomical community via the General Coordinates Network.
-The deployment relied on purpose-built software infrastructure, including the \mlgw library (Appendix~\ref{app:ml4gw}) for GPU-accelerated gravitational-wave data processing and a multiprocessing architecture that generates sky maps, source classifications, and significance estimates in parallel.
-This deployment demonstrates that machine learning methods are mature enough for production use in gravitational wave astronomy and can contribute alongside traditional matched-filter pipelines in an operational setting.
+Chapter~\ref{chap:online} described the integration of \aframe and \amplfi into a production pipeline and the deployment of this pipeline during the final segment of LIGO's fourth observing run, O4c, from August 28th to November 25th, 2025.
+Of the 24 compact binary candidates for which data from both Hanford and Livingston were available, \aframe contributed to 23 (96\%), and detected 19 (79\%) above the public alert significance threshold.
+The single non-detection was due to a power outage that prevented data delivery to the pipeline, rather than a limitation of the algorithm.
+For the 9 events where \aframe was the preferred pipeline at the time of the preliminary alert, \amplfi sky maps were distributed to the astronomical community via the General Coordinates Network.
+This deployment demonstrates that machine learning methods are sufficiently mature for production use in gravitational wave astronomy and can contribute alongside traditional matched-filter pipelines in an operational setting.
 
 \section{Outlook}
 
