@@ -3,6 +3,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}
 \label{intro_chapter}
+
+\begin{refsection}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In 1915, Einstein's theory of general relativity (GR) was published, and in it was a revolutionary understanding of the relationship between energy density and the geometry of spacetime~\cite{Einstein:1916vd}.
@@ -18,7 +20,7 @@ All of these detectors operate under the same principle, seeking to detect a cha
 
 Over the past decade, as instruments have been upgraded and made more sensitive, the catalog of GW detections has grown.
 The LIGO-Virgo-KAGRA collaboration (LVK) has reported hundreds of signals from compact binary coalescences (CBCs)~\cite{LIGOScientific:2025slb}, most of which are BBHs, but a few come from neutron star -- black hole (NSBH) mergers, and one has come from a binary neutron star (BNS) merger~\cite{AbEA2017b}.
-The observation of the BNS merger was a landmark event for astrophysics because it was observed not only via GWs, but also across the electromagnetic (EM) spectrum~\cite{gw170817_mma}.
+The observation of the BNS merger was a landmark event for astrophysics because it was observed not only via GWs, but also across the electromagnetic (EM) spectrum~\cite{AbEA2017f}.
 The scarcity of such a scientifically interesting phenomenon has motivated much of the work in this dissertation.
 
 In the remainder of Chapter~\ref{intro_chapter}, I will give a brief overview of the mathematics of GR and how GWs appear as a solution to its equations in Sec.~\ref{intro_sec:gr-math}.
@@ -191,6 +193,48 @@ In this section, I will discuss some of the sources of GWs that are targeted by 
 
 \subsection{Compact binary systems}
 
+The most promising sources of gravitational waves for ground-based detectors are compact binary systems: pairs of black holes or neutron stars whose orbit decays due to the emission of gravitational radiation.
+As a binary system loses energy to GWs, the orbital radius shrinks and the orbital frequency increases until the two bodies eventually merge.
+During the inspiral, this produces a characteristic ``chirp'' signal, a sinusoidal waveform that sweeps upward in both frequency and amplitude.
+The signal then transitions through a brief merger phase and a ringdown, during which the remnant -- typically a black hole, though potentially a neutron star -- radiates as it settles into its final state.
+
+The amplitude and frequency evolution of the inspiral are determined primarily by the chirp mass
+\begin{equation}
+    \mathcal{M} = \frac{(m_1 m_2)^{3/5}}{(m_1 + m_2)^{1/5}},
+\end{equation}
+where $m_1$ and $m_2$ are the masses of the component objects.
+Because the chirp mass controls the rate of frequency evolution, it is the most precisely measurable parameter from the inspiral waveform for most systems~\cite{BlEA2002}.
+It also is the primary determinant of the signal amplitude, and thus the maximum distance at which a source is detectable.
+In the leading post-Newtonian approximation~\cite{2014LRR....17....2B}, the characteristic strain from a CBC at luminosity distance $r$ is
+\begin{equation}
+    h \sim \frac{G\mathcal{M}}{c^2 r} \left(\frac{G\mathcal{M} \pi f}{c^3}\right)^{2/3},
+\end{equation}
+where $f$ is the instantaneous GW frequency.
+The amplitude scales as $\mathcal{M}^{5/3}$; heavier systems therefore produce stronger signals and are detectable at greater distances.
+This is why BBH mergers dominate the observed catalog despite their relatively low predicted astrophysical merger rates compared to BNS systems.
+
+The coalescence of a compact binary progresses through three distinct phases.
+During the \emph{inspiral}, the two bodies spiral inward as they lose energy to gravitational radiation.
+The frequency evolution during this phase is well described by the post-Newtonian (PN) approximation.
+For a 30+30\,$M_\odot$ BBH system, the inspiral sweeps from $\sim 10$\,Hz to several hundred hertz in a matter of seconds; for a 1.4+1.4\,$M_\odot$ BNS system, the same frequency range takes $\sim 100$\,s seconds to traverse, posing distinct challenges for detection algorithms.
+The inspiral is followed by the \emph{merger}, a brief and strongly nonlinear phase in which the two bodies collide and the GW amplitude reaches its peak.
+This phase requires numerical relativity simulations to model accurately~\cite{Pretorius_2005}.
+The final phase is the \emph{ringdown}, during which the remnant relaxes to its final state by emitting GWs at its characteristic quasinormal mode (QNM) frequencies~\cite{PhysRevX.9.041060}.
+
+The first directly detected GW signal, GW150914, was produced by the merger of two black holes with total mass approximately $65\,M_\odot$~\cite{AbEA2016a}.
+Note that gravitational wave events are conventionally named based on the date of their detection, so GW150914 was detected on September 14, 2015.
+Since that time, the LVK has reported hundreds of CBC detections, with total masses ranging from $\sim 3\,M_\odot$ to $\sim 150\,M_\odot$~\cite{LIGOScientific:2025slb}.
+Of particular scientific interest is GW170817, the first detected BNS merger, which was observed simultaneously in GWs and across the electromagnetic spectrum~\cite{AbEA2017b}.
+This multi-messenger event enabled measurements of the Hubble constant~\cite{LIGOScientific:2017adf}, constraints on the neutron star equation of state~\cite{Abbott_2018}, and the identification of a kilonova~\cite{Smartt2017}.
+The scientific richness of such events and the rarity of BNS mergers in the current detector network are the primary motivations for the low-latency search and parameter estimation methods developed in this dissertation.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/cbc_phases.pdf}
+    \caption[Schematic of a compact binary coalescence waveform]{Schematic of a compact binary coalescence gravitational waveform, illustrating the three phases: inspiral (chirp governed by the post-Newtonian approximation), merger (requiring numerical relativity), and ringdown (exponentially damped oscillation).}
+    \label{intro_fig:cbc_phases}
+\end{figure}
+
 \subsection{Burst sources}
 
 Gravitational wave bursts are short-duration signals whose waveform morphology cannot be predicted with sufficient accuracy to enable matched filtering (see Sec.~\ref{intro_sec:matched_filter}).
@@ -198,7 +242,7 @@ The most energetically-promising astrophysical sources are core-collapse superno
 The nonlinear, three-dimensional hydrodynamics of stellar collapse make waveform prediction impractical, so matched filtering is not a viable option.
 Even with the most optimistic emission models, a galactic CCSN at $\sim 10$\,kpc would produce a strain $h \sim 10^{-21}$--$10^{-22}$ in the LIGO band, near the edge of detectability; extragalactic events are unlikely to be detectable with current instruments~\cite{Ott_2009}.
 Other candidate burst sources include magnetar giant flares, accretion disk instabilities, and cosmic string cusps~\cite{Abbott_2017_burst}, all of which present similar challenges in waveform prediction.
-Because of this, burst-search algorithms such as coherent WaveBurst (cWB~\cite{Klimenko:2015ypf}) look for excess power in the time-frequency domain that is coincident and coherent across multiple detectors, while remaining inconsistent with known noise transient morphologies.
+Because of this, burst-search algorithms such as coherent WaveBurst (cWB~\cite{PhysRevD.93.042004}) look for excess power in the time-frequency domain that is coincident and coherent across multiple detectors, while remaining inconsistent with known noise transient morphologies.
 
 \subsection{Rapidly rotating neutron stars}
 
@@ -344,7 +388,7 @@ Assuming a network of detectors with stationary Gaussian noise, the log-likeliho
 where the sum runs over detectors, $h_k(\boldsymbol{\theta})$ is the waveform template projected onto detector $k$, and $\langle a \mid b \rangle = 4\, \Re \int_0^\infty \tilde{a}(f)\tilde{b}^*(f) / S_n(f)\, df$ is the noise-weighted inner product from Sec.~\ref{intro_sec:matched_filter}.
 Evaluating this likelihood requires computing a waveform template $h_k(\boldsymbol{\theta})$ at each point in parameter space.
 Standard approaches use stochastic sampling algorithms, such as Markov chain Monte Carlo (MCMC) or nested sampling~\cite{Skilling_2006}, to draw samples from the posterior without evaluating the full integral.
-The LVK PE codes LALInference~\cite{Veitch_2015} and Bilby~\cite{Ashton_2019} implement these samplers, typically requiring $\mathcal{O}(10^7)$ likelihood evaluations and times of hours to days per event.
+The LVK PE codes LALInference~\cite{lalinference_paper} and Bilby~\cite{Ashton_2019} implement these samplers, typically requiring $\mathcal{O}(10^7)$ likelihood evaluations and times of hours to days per event.
 An example of the resulting posterior is shown in Fig.~\ref{intro_fig:pe_corner}: the chirp mass is constrained to a fraction of a solar mass, while the mass ratio, luminosity distance, and inclination each carry substantially larger fractional uncertainties.
 This computational cost is the primary obstacle to rapid source characterization following a GW detection, and motivates the machine learning approach presented in this dissertation.
 
@@ -378,3 +422,10 @@ This enables posterior estimation in under two seconds, compared to hours or day
 The detection and parameter estimation algorithms developed in this dissertation are based on these properties, achieving performance competitive with traditional methods while operating at significantly lower computational cost and latency.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\singlespacing
+\begingroup
+\emergencystretch=3em
+\printbibliography[title=References,heading=subbibintoc]
+\endgroup
+\end{refsection}
