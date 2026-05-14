@@ -42,7 +42,7 @@ We conclude with a discussion and outlook for ML searches in Sec.~\ref{o3cat_sec
 \subsection{Model and data}
 \label{o3cat_sec:model}
 
-\aframe~\cite{Marx_aframe} is a supervised ML framework for training neural networks to detect gravitational-wave signals directly from interferometer strain data. 
+\aframe~\cite{Marx_aframe} is a supervised ML framework for training neural networks to detect GW signals from interferometer strain data. 
 In this work, we use the \aframe configuration described extensively in Ref.~\cite{aframe-methods} to search for gravitational-wave signals from binary black hole (BBH) mergers in O3. 
 
 In brief (see Chapter~\ref{chap:aframe_methods} for a full description), the neural network used by \aframe is a ResNet34~\cite{resnet}-based architecture that processes overlapping, 1.5 second windows of coincident LIGO Hanford and Livingston strain data to produce a scalar-valued detection statistic. 
@@ -74,7 +74,7 @@ The sampling rate of the strain data is downsampled to 2048\,Hz from their origi
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figures/gw190828_063405_response.png}
-\caption[Example of \aframe's neural network output in response to GW190828\_063405]{
+\caption[\aframe\ output for GW190828\_063405]{
 Example of \aframe's neural network output in response to GWTC-3's GW190828\_063405, a merger with $m_1 = 23.7^{+6.8}_{-6.7} M_{\odot}$ and $ m_2 = 10.4^{+3.8}_{-2.2} M_{\odot}$. 
 The event time corresponds to the coalescence time of the binary. 
 As the merger time enters the window of the network, the output increases and remains at a high level while the merger time is within the network window. 
@@ -97,7 +97,7 @@ Typically, the regions are defined based on the compact objects involved in the 
 where $p_\mathrm{terr}$ represents the probability that the event is of terrestrial origin (i.e., that it is not an astrophysical gravitational-wave event).
 
 
-The typical method for calculating $p_\mathrm{astro}$, known colloquially as the FGMC method~\cite{Farr_2015}, models events as a Poisson mixture of noise and signal. Under this model, one can derive
+The typical method for computing $p_\mathrm{astro}$, the FGMC method~\cite{Farr_2015}, models events as a Poisson mixture of noise and signal. Under this model, one can derive
 
 \begin{equation}
     p_\mathrm{astro}(x) = \frac{R_s(x)}{R_s(x) + R_n(x)}

@@ -31,7 +31,7 @@ Techniques like reduced-order-quadrature (ROQ)~\cite{Canizares:2014fya, morisaki
 This is currently used in LVK to deliver update alerts from Bayesian parameter estimation on the timescale of several minutes to hours. 
 Other techniques like the use of accelerated hardware for stochastic sampling has been reported in Refs.~\cite{Talbot:2019okv, wong2023fastgravitationalwaveparameter}, and mesh-free approximation for sky-localization, reported in Refs.~\cite{PhysRevD.108.064055, PhysRevD.109.024053}.
 
-More recently, likelihood-free inference (LFI) using variational methods, have emerged as a different paradigm with flexible neural network approximators being used to learn the posterior or the likelihood. 
+More recently, methods based on likelihood-free inference (LFI) have emerged as a different paradigm, using flexible neural network approximators to learn the posterior or the likelihood. 
 Their use has been demonstrated on GW data~\cite{Gabbard_2021, PhysRevD.108.042004}, in particular with posterior estimation using normalizing flows~\cite{Dax_2021}, such as in the DINGO algorithm. 
 However, in order to relay discovery alerts for prompt followup, the combination of \emph{search and inference} needs to be considered together.\footnote{This is done in case of stochastic signals offline, for example, see Ref.~\cite{Smith_2018}.}
 Also considering a live, real-time system design, several overhead costs like data transfer, file input/output operations, communicating data to a remote server, and so on are often overlooked in isolated analyses, but show up in the overall time-to-alert.
@@ -109,7 +109,7 @@ However, we note that inference like sky-localization is insensitive to such eff
 Also, the EM-brightness of a binary depends primarily on the aligned spin components aside from the mass ratio. Hence, the use of aligned-spin is justified for online purposes. 
 In the future, however, we plan to implement and integrate the {\phenomp} waveform model with our workflow.
 
-In Fig.~\ref{amp_meth_fig:waveform}, we show the time-domain strain of a representative BBH system based on our \phenomd~ implementation and compare it with that implemented in \lalsim. 
+In Fig.~\ref{amp_meth_fig:waveform}, we compare the time-domain strain of a representative BBH system from our \phenomd~ implementation with that from \lalsim. 
 The latter is a part of the LIGO Algorithm Library~\cite{lalsuite}, and provides the core components of GW data analysis with LVK data. 
 We find consistency between our implementation and that in ~\lalsim, with the residual errors below the signal by three orders of magnitude through most of the evolution.
 Such residuals are unlikely to impact the results since the statistical errors of the posterior are greater than systematic errors due to such differences. 
@@ -149,7 +149,7 @@ Our workflow involves:
     Examples of the whitened data with the injected waveform overlaid is shown in the panels of Fig.~\ref{amp_meth_fig:data-view}.
 \end{itemize}
 We call this implementation {\tt InMemoryDataset} in \mlgw. 
-We also note that though we have used GPUs as the co-processors in this work, our software framework can also be ported to other accelerators, like TPUs or HPUs, supported by the {\tt{pytorch-lightning}}~\cite{falcon_2024_10779019} framework that we use.
+We also note that though we have used GPUs as the co-processors in this work, our software framework can also be ported to other accelerators, like TPUs or HPUs, through the {\tt pytorch-\allowbreak lightning}~\cite{falcon_2024_10779019} library.
 
 %%%% NEW SECTION %%%%
 \section{Embedding Network}
@@ -566,7 +566,7 @@ We do the inference of GW150914 data in the same way as in the previous case, an
 We did not use the data from Sept 14, 2015, since the duration of two-detector data in science mode was minimal due to the poor duty cycle of L1 detector (see analysis ready segments available in GWOSC).
 
 \section{Summary}\label{amp_meth_sec:conclusion}
-In this work, we presented a GW parameter estimation algorithm, {\amplfi}, using likelihood-free inference.
+In this work, we presented {\amplfi}, a GW parameter estimation algorithm based on likelihood-free inference.
 This work is one of the efforts to integrate AI algorithms in GW data analysis using tools built as a part of {\mlgw} -- like data cleaning using {\tt{DeepClean}}~\cite{Saleem_2024}, search of CBCs using {\aframe}~\cite{aframe-methods}, and anomaly detection with {\tt GWAK}~\cite{Raikman:2023ktu}.
 The use case of {\amplfi} is to run alongside the CBC search, {\aframe}.
 The intended design is for both {\aframe~+~\amplfi} to run online, preferably on the same hardware to minimize any communication overhead and reduce the time-to-alert. 

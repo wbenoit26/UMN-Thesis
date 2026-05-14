@@ -275,7 +275,7 @@ In the sensitive band of the LIGO detectors, the astrophysical CBC background is
 \section{LIGO Detectors}
 \label{intro_sec:detectors}
 
-The Laser Interferometer Gravitational-wave Observatory (LIGO) consists of two large-scale interferometric detectors located in Hanford, Washington and Livingston, Louisiana~\cite{Aasi_2015}.
+LIGO consists of two large-scale interferometric detectors located in Hanford, Washington and Livingston, Louisiana~\cite{Aasi_2015}.
 Each detector is a Michelson interferometer with 4\,km-long arms that measure the differential change in length caused by passing gravitational waves.
 When a GW with amplitude $h$ passes through the detector, it produces a differential strain $\Delta L/L = h/2$ in each arm, where $L = 4$\,km.
 The detectors are designed to measure strains as small as $h \sim 10^{-23}\,\mathrm{Hz}^{-1/2}$ near their most sensitive frequencies, corresponding to a change in arm length of $\sim 10^{-20}\,\mathrm{m}$, many orders of magnitude smaller than the diameter of a proton.
@@ -315,7 +315,7 @@ The amplitude spectral density of the LIGO detectors during O4a, along with the 
     \label{intro_fig:asd_comparison}
 \end{figure}
 
-Beginning with the fourth observing run, Advanced LIGO employs frequency-dependent squeezed light injection to further reduce quantum noise~\cite{Tse_2019}.
+Beginning with O4, Advanced LIGO employs frequency-dependent squeezed light injection to further reduce quantum noise~\cite{Tse_2019}.
 Squeezed states of light reduce the quantum uncertainty in the phase quadrature below the vacuum level, lowering shot noise at high frequencies.
 Frequency-dependent squeezing, achieved by rotating the squeezing ellipse as a function of frequency using an external filter cavity, allows simultaneous reduction of shot noise at high frequencies and quantum radiation pressure noise at low frequencies.
 This technique has contributed measurably improved sensitivity across the detector band in O4 relative to O3.
@@ -405,7 +405,7 @@ This computational cost is the primary obstacle to rapid source characterization
 \section{Machine Learning for Gravitational-Wave Astronomy}
 \label{intro_sec:ml}
 
-The traditional approaches described above -- matched filtering for detection and Bayesian sampling for parameter estimation -- are well-founded and highly effective, but each faces practical limitations.
+The traditional approaches described above -- matched filtering and Bayesian parameter estimation -- are well-founded and highly effective, but each faces practical limitations.
 Matched filtering is optimal when the signal model is known exactly and the noise is stationary and Gaussian; in practice, neither condition holds perfectly, as real detector noise shifts over time and contains non-Gaussian glitches.
 Bayesian PE, while statistically rigorous, is computationally expensive and too slow for full parameter estimation in real-time.
 Machine learning (ML) offers a complementary approach that addresses both limitations: it learns properties of signal-like and noise-like data from labeled examples rather than requiring an explicit signal model, and amortizes the cost of inference over a training phase so that individual events can be analyzed in seconds.
