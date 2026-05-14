@@ -26,7 +26,7 @@ However, identifying GW counterparts jointly has been extremely challenging.
 The discovery of GWs and multi-wavelength EM emission from the merger of the binary neutron star (BNS), GW170817,~\cite{AbEA2017b, AbEA2017f} remains the first and only success story, albeit a rarity, with most subsequent candidates likely to be at much farther distances~\cite{2020NatAs...4..550C}. 
 
 One primary step toward improving follow-up campaigns is the availability of fast, real-time Bayesian parameter estimation (PE) of compact binary coalescence (CBCs) to provide accurate data products for GW follow-up. 
-The computationally expensive part of stochastic sampling techniques, like nested sampling currently in use, involve the repeated computation of the likelihood. 
+The computationally expensive part of stochastic sampling techniques, like nested sampling currently in use, involves the repeated computation of the likelihood. 
 Techniques like reduced-order-quadrature (ROQ)~\cite{Canizares:2014fya, morisaki2023rapidlocalizationinferencecompact} and focused-ROQ~\cite{Morisaki:2020oqk} have been developed in view of making real-time PE as fast as possible. 
 This is currently used in LVK to deliver update alerts from Bayesian parameter estimation on the timescale of several minutes to hours. 
 Other techniques like the use of accelerated hardware for stochastic sampling has been reported in Refs.~\cite{Talbot:2019okv, wong2023fastgravitationalwaveparameter}, and mesh-free approximation for sky-localization, reported in Refs.~\cite{PhysRevD.108.064055, PhysRevD.109.024053}.
@@ -162,7 +162,7 @@ The implementation closely resembles that of the \texttt{torchvision} library, w
 Firstly, {1-D} convolutions are used for time-series, instead of {2-D} variants used for images. 
 We use group normalization~\cite{wu2018groupnormalization} instead of batch-normalization.
 In \aframe, the architecture closely resembles a 34-layer residual network~\cite{he2015deepresiduallearningimage}.
-We, however, avoid the final 512-channel stack of convolution blocks (see Fig. 3 in~\cite{he2015deepresiduallearningimage}) since we do not find performance improvement with its inclusion. 
+However, we avoid the final 512-channel stack of convolution blocks (see Fig. 3 in~\cite{he2015deepresiduallearningimage}) since we do not find performance improvement with its inclusion. 
 Thus our layer stacks contain blocks of 64, 128, and 256-channel residual convolution blocks. 
 The number of convolution layers in each block is determined by hyper-parameter optimization (HPO) using Variance-Invariance-Covariance Regularization (VICReg)~\cite{bardes2022vicreg} loss, detailed below in section~\ref{amp_meth_sec:ssl}.
 Details about the HPO are presented in~\ref{amp_meth_sec:embedding-hpo}. 
@@ -245,7 +245,7 @@ To determine the configuration to be used for the embedding network, we perform 
 i.e. the dimensionality of the expanded representation is $N\times D_{\gamma}$.
 We use a stochastic gradient descent optimizer and also sample over the learning rate, the weight decay and the momentum terms of the optimizer. 
 A total of $\sim 250$ training runs were performed using asynchronous hyperbanding with early-stopping~\cite{li2018massively} using the {\raytune} library~\cite{liaw2018tune}. 
-This technique stops poor performing trials allowing more favorable trials to continue. We use a grace period of 3 epochs before half of ongoing trials are stopped. 
+This technique stops poor-performing trials allowing more favorable trials to continue. We use a grace period of 3 epochs before half of ongoing trials are stopped. 
 The experiment was carried over 8 workers over 4 A40 GPU taking $\sim 40$ hours. 
 We show the top 10 trial configuration in Table~\ref{amp_meth_tab:embedding-hpo-table} and show the epoch-average VICReg validation loss for the same in the left panel of Fig.~\ref{amp_meth_fig:embedding-hpo-top-runs}. 
 The right panel of the figure shows the training/validation of the best model configuration trained until early-stopping condition is met.
@@ -336,7 +336,7 @@ In our case the parameter space is 8-dimensional,
 Here, $\mc = (m_1m_2)^{3/5}/(m_1 + m_2)^{1/5}$ is the chirp mass of the binary, $q = m_2/m_1$ is the mass ratio of the binary defined to be less than unity, $\dl$ is the luminosity distance of the source, $\thetajn$ is the inclination of the orbit with respect to the line-of-sight, $\alpha$ and $\delta$ are right ascension (RA) and declination respectively, $\phi_c$ is the coalescence phase, and $\psi$ is the polarization angle. 
 The prior distributions used for generating the simulations are listed in Table~\ref{amp_meth_tab:priors}.
 Note that the time of coalescence is not a part of parameter set because it is marginalized over.
-Although \phenomd~supports BH spins, we have ignored it for the current work. 
+Although \phenomd~supports BH spins, we have ignored spin effects for the current work. 
 This will be relaxed in subsequent versions of the code and reported in a future work. The data, \data, consists of 4 seconds of whitened time-domain strain sampled at 2048 Hz containing a BBH signal, as illustrated in Fig.~\ref{amp_meth_fig:data-view}. 
 When training the normalizing flow, we condition the parameters on the data representation, \smallgamma, as shown in Eq.~(\ref{eq:representation}). 
 This uses only the ResNet, $f$. 
@@ -363,14 +363,14 @@ However, in our experiments, we found such transforms to perform less optimally 
 
 Our transforms are implemented using the open source library {\pyro}~\cite{JMLR:v20:18-403}. 
 The complete transform is composed of 60 individual affine-autoregressive transforms. 
-Each transform has 6 masked linear layers; each layer having 100 hidden units. 
+Each transform has 6 masked linear layers, each with 100 hidden units. 
 More complex transform functions like monotonic splines and neural networks with positive weights exist in the literature. 
-However, we use the affine transforms for simplicity and lower number of trainable parameters. 
+However, we use the affine transforms for simplicity and fewer trainable parameters. 
 We train the network with a batch size of 800, with 200 batches per epoch using the AdamW optimizer~\cite{loshchilov2019decoupledweightdecayregularization} with initial learning rate of $1\mathrm{e}{-3}$ and weight decay of $2\mathrm{e}{-3}$. 
 The learning rate is scheduled to reduce by a factor of 10 upon the plateauing of the validation loss with a patience of 10 epochs. 
 These configurations are decided after hyper-parameter tuning over a combination of several hundred parameter combinations detailed in \ref{amp_meth_sec:flow-hpo}.
 Our trainer is scheduled to terminate training once the validation loss saturates with a patience of 50 epochs. 
-In terms of training time, we find training $\gtrsim 200$ epochs with the above configuration takes $\sim 20-24$ hours depending on a single 40GB NVIDIA A40/40GB NVIDIA A100
+In terms of training time, we find training $\gtrsim 200$ epochs with the above configuration takes $\sim 20-24$ hours using a single 40\,GB NVIDIA A40 or 40\,GB NVIDIA A100
 GPU.
 We note that because our dataset is generated on-the-fly, distributed training does not provide any benefit across multiple devices in terms of training time; however, the training sees more data by a factor of the number of devices used. 
 Even so, we did not find significant differences in model performance by training across one vs. multiple devices. 

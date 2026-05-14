@@ -53,7 +53,7 @@ See Fig.~\ref{o3cat_fig:output_example} for an illustration of how \aframe's neu
 
 The neural-network model used in this work has been trained and optimized to search for BBH mergers in the component mass range $[5, 100]~ M_\odot$. 
 The astrophysical priors used to generate the signals used to train the neural-network are reported in Table~\ref{o3cat_tab:priors} and were based on the distributions used to estimate search pipeline sensitivity in the LVK's third observing run (O3)~\cite{ligo_scientific_collaboration_and_virgo_2023_7890437}. 
-For this analysis, we train and validate \aframe using coincident strain data between times 2019-04-01T:15:00:00 and 2019-04-17T:19:53:20 corresponding to a 17-day calendar period from the start of O3. 
+For this analysis, we train and validate \aframe using coincident strain data between times 2019-04-01T15:00:00 and 2019-04-17T19:53:20 corresponding to a 17-day calendar period from the start of O3. 
 The training procedure is the same as described in Ref.~\cite{aframe-methods}. 
 To summarize this procedure, the problem is framed as a supervised learning task where neural-network parameters are optimized by minimizing a binary cross entropy loss between labeled signals and noise. 
 Training batches are constructed by randomly sampling 1.5 second windows of real strain data with a sample rate of 2048\,Hz, and simulated signals are added into a fraction of the batch. 
@@ -85,7 +85,7 @@ The integrated response rises as the merger passes through the window, and tradi
 \subsection{Probability of Astrophysical Origin}
 \label{o3cat_sec:pastro}
 
-The probability of astrophysical origin $p_\mathrm{astro}$ is often used instead of FAR for ranking candidates because it incorporates the candidates source property estimates in conjunction with prior information on the astrophysical population. 
+The probability of astrophysical origin $p_\mathrm{astro}$ is often used instead of FAR for ranking candidates because it incorporates the candidate's source property estimates in conjunction with prior information on the astrophysical population. 
 As previously noted, in the GWTC-3, IAS, OGC and AresGW catalogs, candidates are identified as significant if they have $p_\mathrm{astro} > 0.5$.
 
 Most searches utilize a coarse-grained approach to $p_\mathrm{astro}$, summing the probability that the candidate belongs to a specific region of the parameter space.
@@ -102,7 +102,7 @@ The typical method for calculating $p_\mathrm{astro}$, known colloquially as the
 \begin{equation}
     p_\mathrm{astro}(x) = \frac{R_s(x)}{R_s(x) + R_n(x)}
 \end{equation}
-Where $R_s$ and $R_n$ are the expected rates of signals and noise, respectively, at a given detection statistic $x$.
+where $R_s$ and $R_n$ are the expected rates of signals and noise, respectively, at a given detection statistic $x$.
 We estimate $R_n$ empirically from noise event detection statistics constructed from 100 years of timeslides performed across the entire O3 observing run. 
 First, we model the noise density at a given detection statistic, $f_n(x)$, with a kernel density estimator (KDE) $h(x)$ and an exponential tail,
 
@@ -143,7 +143,7 @@ The quantity $V_0$ is the astrophysical volume corresponding to the furthest dis
 The latter quantity is estimated by constructing a foreground model using another KDE.
 
 Fig.~\ref{o3cat_fig:pastro_vs_ifar} shows our $p_\mathrm{astro}$ estimate as a function of detection statistic and inverse FAR (iFAR). 
-Currently, source property information, like component masses, are not incorporated into the foreground model. 
+Currently, source property information, like component masses, is not incorporated into the foreground model. 
 So, $p_\mathrm{astro}$ is solely a function of our detection statistic, and thus is a smooth increasing function of detection statistic, or, equivalently, iFAR.
 
 

@@ -230,7 +230,7 @@ Curriculum learning is a technique for training machine learning models in which
 One way to apply this in the context of GW detection is to initially provide high SNR signals and gradually introduce lower SNR signals~\cite{nousi2022deep}.
 This allows the neural-network to quickly arrive at a minima of its parameter space before trying to optimize for the more realistic task.
 We begin with an SNR distribution that follows a power law, $p(\text{SNR}) \sim (\text{SNR})^{-3}$, with a minimum of SNR$_{\text{min}} = 12$ and a maximum of SNR$_{\text{max}} = 100$.
-The form of this distribution was chosen to roughly match the SNR distribution of of our astrophysically motivated prior. 
+The form of this distribution was chosen to roughly match the SNR distribution of our astrophysically motivated prior. 
 Each time a new training batch is constructed, the minimum SNR bound of the distribution is decreased until we reach the ultimate lower bound of 4.
 This decrease happens uniformly over 989 batches, a value that was reached through a hyperparameter search. 
 
@@ -312,7 +312,7 @@ After the neural-network training has converged, the weights corresponding to th
 
 \textbf{Hyperparameter Search.} \label{aframe_meth_sec:hp-search}
 The hyperparameters of our algorithm are optimized via a random search~\cite{random_search}. 
-It is infeasible to search over all possible hyperparameters, so we selected those that we a-priori expect to have the greatest impact on the neural-network optimization process.
+It is infeasible to search over all possible hyperparameters, so we selected those that we a priori expect to have the greatest impact on the neural-network optimization process.
 These were the neural-network's maximum learning rate ($lr_{\text{max}}$), the number of epochs over which the learning rate ``ramps up" ($N_{\text{ramp}}$) to $lr_{\text{max}}$ , $p_{\text{signal}}$, $p_{\text{mute}}$, $p_{\text{swap}}$, and the number of steps over which SNR curriculum learning was performed. 
 The priors on each of these parameters can be found in Table~\ref{aframe_meth_tab:hp-priors}.
 30 combinations of these parameters were randomly sampled and used to train a neural-network.

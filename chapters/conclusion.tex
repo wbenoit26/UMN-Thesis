@@ -37,13 +37,13 @@ The algorithm produces posterior samples in under one second from the time of a 
 \amplfi was designed for co-deployment with \aframe on a shared GPU, minimizing communication overhead and enabling the full pipeline latency demonstrated here.
 The combination of algorithms represents a pipeline capable of participating in the low-latency alert stream alongside traditional matched-filter pipelines. 
 
-Chapter~\ref{chap:amplfi_results} introduced a number of improvements to \amplfi, including the use of multi-modal training data and the inclusion of Virgo data, and  validated it against established methods using both mock data and real data from O3.
+Chapter~\ref{chap:amplfi_results} introduced a number of improvements to \amplfi, including the use of multi-modal training data and the inclusion of Virgo data, and validated it against established methods using both mock data and real data from O3.
 Comparisons with BAYESTAR on the mock data stream show that \amplfi produces a similar sky localization area and tighter searched volume constraints.
 Additionally, we find that \amplfi posteriors for real events from O3 are broadly consistent with those from Bilby, though less precise, while being orders of magnitude faster.
 This includes cases where posterior support extends near or beyond the boundaries of the training prior.
 Overall, \amplfi's performance demonstrates its ability to produce data products for low-latency public alerts.
 
-Chapter~\ref{chap:online} described the integration of \aframe and \amplfi into a production pipeline and the deployment of this pipeline during the final segment of LIGO's fourth observing run, O4c, from August 28th to November 25th, 2025.
+Chapter~\ref{chap:online} described the integration of \aframe and \amplfi into a production pipeline and the deployment of this pipeline during the final segment of LIGO's fourth observing run, O4c, from August 28 to November 25, 2025.
 Of the 24 compact binary candidates for which data from both Hanford and Livingston were available, \aframe contributed to 23 (96\%), and detected 19 (79\%) above the public alert significance threshold.
 The single non-detection was due to a power outage that prevented data delivery to the pipeline, rather than a limitation of the algorithm.
 For the 9 events where \aframe was the preferred pipeline at the time of the preliminary alert, \amplfi sky maps were distributed to the astronomical community via the General Coordinates Network.

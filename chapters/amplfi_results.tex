@@ -49,7 +49,7 @@ In GW astronomy, estimating the parameters $\theta$ of a source given strain dat
 Traditional Bayesian PE algorithms rely on repeated evaluations of an explicit likelihood function, utilizing stochastic sampling techniques such as Markov Chain Monte Carlo (MCMC) or nested sampling to explore the signal parameter space~\cite{Ashton_2019, lalinference_paper}. 
 For GW PE, this process can be arduous. 
 Each likelihood evaluation requires simulating a waveform, which can be expensive. 
-In addition, the full 15 dimensional signal parameter space must be fully explored. 
+In addition, the full 15-dimensional signal parameter space must be fully explored. 
 Low-latency PE methods typically make approximations, to either the likelihood function or waveform physics, to simplify the exploration of the posterior~\cite{Canizares:2014fya, Morisaki:2023kuq, Morisaki:2020oqk, Singer_2016}.
 
 Posterior estimation using LFI involves training a probabilistic neural network with tuneable parameters $\phi$, $q_\phi(\theta | d)$, to approximate the true posterior $p(\theta | d)$. 
@@ -112,13 +112,13 @@ When deployed to a production environment, any deviations in noise properties co
 Practically, using a global PSD estimate encoded the assumption of noise-stationarity into the model. 
 
 In this work, the quantity of strain data used for training is increased to $\sim$ 2 months. 
-A global PSD estimate is no longer sufficient at modeling the varying noise profiles of the detectors across this long of a period. 
+A global PSD estimate is no longer sufficient for modeling the varying noise profiles of the detectors across this long of a period. 
 Instead, we now utilize data local to each training sample to estimate the PSD. 
 For each training noise instance, 64 seconds of strain data immediately preceding the sample is used to estimate the PSD using Welch's method with median averaging. 
 Increasing the quantity of strain data and using local PSD estimates allows a richer sampling of detector noise states, leading to improved generalization and model longevity. 
 This amount of data cannot fit into memory at once. 
 We take advantage of an efficient out-of-memory data loader implemented in \mlgw so that data loading does not bottleneck the training process. 
-This is the same data loader implementation is used to train the \aframe detection algorithm~\cite{aframe-methods}.
+This is the same data loader implementation used to train the \aframe detection algorithm~\cite{aframe-methods}.
 
 Lastly, in Ref.~\cite{Chatterjee:2024pbj}, \amplfi was trained with a GPU-accelerated IMRPhenomD approximant~\cite{Khan:2015jqa}. 
 Since then, we have implemented the IMRPhenomPv2 waveform approximant, allowing \amplfi to be trained with a waveform that includes spin precession physics.
@@ -438,7 +438,7 @@ We then filter the injections to those with SNR $\geq 12$, leaving $\sim$ 500 in
 For each dataset, we utilized strain data at different epochs after the initial model training period. 
 These periods spanned from immediately after, to 11 weeks after the training period. 
 Each period consisted of $\sim 1$ day of live time. 
-We analyze each of these datasets using the HLV \amplfi network. 
+We analyze each of these datasets using the Hanford--Livingston--Virgo (HLV) \amplfi network. 
 In Fig~\ref{amp_res_fig:robustness}, we show sky localization consistency and searched area performance. 
 We see that \amplfi's sky localizations remain well calibrated and accurate 11 weeks beyond its initial training period. 
 This demonstrates that a single \amplfi model maintains utility well beyond its initial training period. 
@@ -475,11 +475,11 @@ Exploring this is left to future work.
 There exist several differences between the GWTC-3 and \amplfi analyses. 
 First, \amplfi trains using a distance prior that is uniform in luminosity distance, while the GWTC-3 analyses utilize a uniform in co-moving volume distribution. 
 To account for this, we use importance sampling to re-weight \amplfi's samples to the uniform in co-moving volume distance distribution reported by the GWTC-3 analysis. 
-Second, \amplfi was trained using the IMRPhenomPV2 waveform, while the LVK posteriors were produced using IMRPhenomXPHM. 
+Second, \amplfi was trained using the IMRPhenomPv2 waveform, while the LVK posteriors were produced using IMRPhenomXPHM. 
 So, effects of higher order modes are not captured in \amplfi's results. 
 Third, the \amplfi result was produced using the low-latency data, while the GWTC-3 result utilized data that includes an update to calibration, and cleaning of certain noise sources. 
 Lastly, \amplfi does not aim to explicitly model the Gaussian likelihood typically assumed in CBC PE. 
-By training with real data, non-Gaussian statistics in the data is learned.
+By training with real data, non-Gaussian statistics in the data are learned.
 
 In general, the posteriors show rough agreement. 
 However, there are some instances with noticeable differences. 
@@ -499,7 +499,7 @@ We have demonstrated \amplfi's sky localization performance is equivalent to BAY
 We have shown that a single \amplfi algorithm trained using $\sim 2$ months of real data maintains performance months beyond its training period. 
 Finally, we analyzed real gravitational wave candidates within \amplfi's training prior and have shown posterior results in rough agreement with the GWTC-3 analyses. 
 
-Still, there remains several avenues for improving the utility of \amplfi.
+Still, there remain several avenues for improving the utility of \amplfi.
 Broadening the parameter space to include neutron star black hole and binary neutron star (BNS) mergers will be critical for analyzing more likely candidates of EM emission. 
 For BNS signals that can last for minutes in the detectors' sensitive band, utilizing data compression methods will be important. 
 In addition, exploring parameterizations of the CBC signal parameter space that eliminate known degeneracies could help the learning process~\cite{Roulet_2022}. 
