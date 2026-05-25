@@ -555,7 +555,7 @@ GW170817 was a lucky observation: only 40 Mpc away, all detectors active, observ
 
 Given the scarcity of BNSs, we don't want to rely on luck.
 
-We've developed and deployed two algorithms...s
+We've developed and deployed two algorithms...
 -->
 
 ---
@@ -575,6 +575,8 @@ We've developed and deployed two algorithms...s
 <img src="../figures/slides/aframe_logo.png" height="300">
 </div>
 
+<!-- Begin with Aframe - ML model for CBC detection -->
+
 ---
 
 # Why Machine Learning?
@@ -591,14 +593,18 @@ In practice, detector data contains:
 
 <div class="alert-box">
 
-Neural networks **don't assume Gaussian noise** — they learn from the data itself.
-A network trained on real O3 noise generalizes well to unseen data.
+Neural networks **don't assume Gaussian noise**; they learn from the data itself.
+A network trained on real noise generalizes well to unseen data.
 
 Training data is effectively unlimited: **years of background** from time-shifted detector streams, plus **millions of simulated waveforms**.
 
 </div>
 
-<!-- -->
+<!-- 
+How does machine learning help with the challenges above?
+
+Primarily, just go through slide here
+-->
 
 ---
 
@@ -635,7 +641,15 @@ H1 + L1, 1.5 s windows at 2048 Hz
 </div>
 </div>
 
-<!-- -->
+<!--
+I'll begin with a high-level overview of how Aframe works
+
+Whenever I say "whitened", it just means normalized by the ASD. It bring the scale of the data from O(10^-21) to O(1).
+
+Architecture is currently a ResNet (CNN), but the infrastructure is designed to be flexible
+
+Define timeslides and injection campaigns
+-->
 
 ---
 
@@ -644,7 +658,7 @@ H1 + L1, 1.5 s windows at 2048 Hz
 **Real detector noise:**
 
 - **~18 days** of coincident H1+L1 O3 data
-- Captures real non-stationarity and glitch structure that Gaussian noise cannot reproduce
+- Captures real non-stationarity and glitch structure that Gaussian noise cannot
 - Non-coincident windows sampled randomly &rarr; combinatorially many noise realizations
 
 **Injected signals:**
@@ -653,7 +667,10 @@ H1 + L1, 1.5 s windows at 2048 Hz
 - Injected into the unwhitened noise at training time
 
 <!-- 
-One potential advantage of ML: using more accurate waveforms.
+18 days is just what was used for the model I'm showing results for; could be longer
+
+One potential advantage of ML: using more accurate waveforms. MF banks don't include precession, etc.
+
 We start with BBH because the signals are short and well-characterized.
 Worked through all the technical pieces: training pipeline, data augmentation, GPU whitening, deployment. 
 The same infrastructure applies directly to BNS.
@@ -670,7 +687,7 @@ Noise augmentations increase the diversity of noise instances seen during traini
 
 <br/>
 
-**Noise inversion** and **time-reversal** quadruple the number of unique noise realizations without collecting new data
+**Noise inversion** and **time-reversal** ~quadruple the number of unique noise realizations without collecting new data
 
 <br/>
 
@@ -679,12 +696,16 @@ These augmentations expose the network to more varied noise morphologies, improv
 </div>
 <div>
 
-![w:100%](../figures/slides/augmentation_background.png)
+![h:500](../figures/slides/augmentation_background.png)
 
 </div>
 </div>
 
-<!-- -->
+<!--
+A major emphasis was placed on training the network with as much variety as possible; augmentations help with that
+
+Image shows effect of different augmentations, though inversion may be hard to tell.
+-->
 
 ---
 
@@ -707,7 +728,14 @@ At training time for each batch:
 ![bg right:40% h:550](../figures/slides/augmentation_signal.png)
 
 
-<!-- -->
+<!-- 
+In addition to augmenting the background data, we also augment our signals in a number of ways.
+
+Need to explain that polarizations are projected onto interferometer.
+Projecting can change the SNR of the waveforms; rescale to desired range (amounts to linear shift in distance)
+
+Image shows muting and swapping augmentations; note that these samples are labeled as background
+-->
 
 ---
 
@@ -720,12 +748,20 @@ Each batch window is whitened using its **own preceding data**; ASD estimation a
 
 <div class="center">
 
-![w:800px](../figures/fractional_detection_over_time.png)
+![w:750px](../figures/fractional_detection_over_time.png)
 
 </div>
 
 
-<!-- -->
+<!-- 
+This property is crucial for production: we can't have our performance degrading unexpectedly, and it would be burdensome to retrain frequently.
+
+Plot is showing the fraction of SNR 8+ events detected above a given threshold for simulated waveforms in background weeks after the original testing period.
+
+This is the first place FAR is used; mention that it will be defined more later
+
+This is how we train the model; how does detection work?
+-->
 
 ---
 
@@ -741,7 +777,9 @@ Each batch window is whitened using its **own preceding data**; ASD estimation a
 The network responds to the signal across both detectors and builds a statistic analogous to matched-filter SNR
 </div>
 
-<!-- -->
+<!--
+Slide text mostly does the job. Consistently high output is a result of training the model with jittered waveform
+-->
 
 ---
 
@@ -768,25 +806,35 @@ The background is built from timeslides at a **1 Hz** cadence.
 </div>
 </div>
 
-<!-- -->
+<!--
+FAR = false alarm rate. Describe via the plot. After observing for a year, expect to have ~12 triggers from background noise above the FAR level of 1/month.
+
+With this model trained and a background model estimated, we can search for gravitational waves in archival data from the third observing run, O3.
+-->
 
 ---
 
 # O3 Catalog Search: Sensitivity
 
-**Retrospective analysis of full O3 (April 2019 – March 2020)**
+**Retrospective analysis of full O3 (April 2019 &ndash; March 2020)**
 
 - **202.4 days** coincident H1+L1 livetime
-- **100 years** of background via timeslides; model runs at **4 Hz** stride
+- **100 years** of background via timeslides; at 4 Hz stride, ~12 days of analysis wall-time
 
-**Sensitive volume (SV):** how much of the universe is searched at a given false alarm rate
+**Sensitive volume (SV):** how much of the universe is searched at a given FAR
 
 - **Comparable** to GstLAL, MBTA, PyCBC for high-mass BBH
 - Reduced sensitivity for $m < 20\,M_\odot$
 
 ![bg right:50% w:95%](../figures/o3-search-sv.png)
 
-<!-- -->
+<!-- 
+To begin, we can measure the sensitivity of our search against existing pipelines based on results from injection campaigns
+
+Talk through plot
+
+Worse at low masses, but on the other hand...
+-->
 
 ---
 
@@ -799,6 +847,10 @@ At **higher** masses, Aframe's SV improves relative to matched filtering searche
 ![width:800](../figures/slides/high_mass_sv.png)
 
 </div>
+
+<!-- 
+Note the different color and describe what this plot shows
+-->
 
 ---
 
@@ -822,7 +874,15 @@ Aframe produces no template, so mass information is not (yet) factored in
 
 </div>
 
-<!-- Contrast with matched filtering searches that use mass bins. Call out that p_astro = p_BBH -->
+<!-- 
+p_astro incorporates source parameter information. > 0.5 used as criteria for inclusion in LVK catalog.
+
+Don't need to take through in detail.
+
+Contrast with matched filtering searches that use mass bins. 
+
+Call out that p_astro = p_BBH 
+-->
 
 ---
 
@@ -857,7 +917,11 @@ Need a PE pipeline that works from raw strain.
 
 </div>
 
-<!-- -->
+<!-- 
+Relatively successful results. Go through text, talk through what plot shows.
+
+Make sure to emphasize need for PE model.
+-->
 
 ---
 
@@ -867,6 +931,10 @@ Need a PE pipeline that works from raw strain.
 # Part III
 
 ## AMPLFI
+
+<div class="footnote"> 
+Accelerated Multi-messenger Parameter estimation using Likelihood-Free Inference
+</div>
 
 <div class="rule"></div>
 
