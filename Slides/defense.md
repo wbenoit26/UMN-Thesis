@@ -965,7 +965,12 @@ Aframe detects an event; **characterization** determines the EM follow-up strate
 
 </div>
 
-<!-- -->
+<!-- 
+Public GW alerts include only the BAYESTAR sky map, p_astro, and a rough source classification.
+
+Caveat:
+Full PE posteriors for chirp mass, mass ratio, inclination, and distance are not released publicly until the catalog papers, months to years later. So, while AMPLFI produces these internally very rapidly, having these posteriors distributed publicly would require a policy change.
+-->
 
 ---
 
@@ -994,7 +999,11 @@ $$z \sim \mathcal{N}(0, I) \;\longleftrightarrow\; \theta \sim p(\theta \mid d)$
 </div>
 </div>
 
-<!-- -->
+<!-- 
+Invertibility of transforms is key. Sample from simple dist (easy), transform to target. Take samples from complex dist, inverse transform to evaluate probability density
+
+Animation shows 8 successive transforms backwards and forwards between simple Gaussian and slightly more complicated half-moon. In practice, target distribution is much higher-dimensional and much more complicated.
+-->
 
 ---
 
@@ -1004,8 +1013,8 @@ $$z \sim \mathcal{N}(0, I) \;\longleftrightarrow\; \theta \sim p(\theta \mid d)$
 
 
 **1. Embedding network**
-- Input: whitened strain + PSD from H1, L1 (±V1)
-- **Dual branch:** time-domain ResNet $\oplus$ frequency-domain ResNet; outputs concatenated
+- Input: whitened strain + PSD from H1, L1 (and maybe V1)
+- **Dual branch:** time-domain ResNet $+$ frequency-domain ResNet; outputs concatenated
 - Marginalizes over time-of-arrival
 - Pre-trained via **VICReg** contrastive learning before flow training begins
 
@@ -1014,12 +1023,14 @@ $$z \sim \mathcal{N}(0, I) \;\longleftrightarrow\; \theta \sim p(\theta \mid d)$
 - Outputs 8-parameter posterior: $\mathcal{M}_c$, $q$, $d_L$, $\theta_{JN}$, RA, dec, $\phi_c$, $\psi$
 
 <!-- 
-
-VICReg: self-supervised objective that produces diverse, non-degenerate embeddings: generalizes across noise realizations and time shifts.
+Embedding network is similar structure to Aframe
 
 Dual-branch rationale: coalescence time is easier to identify in the time domain; chirp mass (a frequency power law) is easier in the frequency domain.
 
-The inclination parameter here is $\theta_{JN}$, the angle between the total angular momentum J and the line of sight, distinct from $\iota$, which is the angle between the orbital angular momentum L and the line of sight. -->
+VICReg: self-supervised objective that produces diverse, non-degenerate embeddings: generalizes across noise realizations and time shifts.
+
+The inclination parameter here is $\theta_{JN}$, the angle between the total angular momentum J and the line of sight, distinct from $\iota$, which is the angle between the orbital angular momentum L and the line of sight. 
+-->
 
 ---
 
@@ -1037,7 +1048,13 @@ The inclination parameter here is $\theta_{JN}$, the angle between the total ang
 
 **Loss:** Negative log-likelihood: $\displaystyle\mathcal{L} = -\mathbb{E}_{\theta,\, d}\bigl[\log q_\varphi(\theta \mid d)\bigr]$
 
-<!-- Training corpus: ~2 months of O3b science-mode strain; local PSD estimation samples diverse noise states; key enabler of model longevity. -->
+<!-- 
+Training set: ~2 months of O3b science-mode strain; local PSD estimation samples diverse noise states; key enabler of model longevity. 
+
+Otherwise, just talk through slide
+
+Again, emphasis on GPU operations and training data diversity
+-->
 
 ---
 
@@ -1045,7 +1062,11 @@ The inclination parameter here is $\theta_{JN}$, the angle between the total ang
 
 ![w:1200](../figures/slides/amplfi_animation.gif)
 
-<!-- -->
+<!-- 
+We can see that as the network window passes over the signal, the skymap narrows in.
+
+Note: AMPLFI does not run in real-time; too slow. Just an example.
+-->
 
 ---
 
@@ -1063,7 +1084,9 @@ The inclination parameter here is $\theta_{JN}$, the angle between the total ang
 
 </div>
 
-<!-- -->
+<!-- 
+Talk through slide, explain dataset, image. Don't think there's much else to add.
+-->
 
 ---
 
@@ -1081,7 +1104,13 @@ For events with EM counterparts, a tighter volume means fewer candidate host gal
 
 </div>
 
-<!-- AMPLFI infers sky position and distance jointly; BAYESTAR fits distance per-pixel as a post-processing step -->
+<!-- 
+Same deal as previous
+
+AMPLFI infers sky position and distance jointly; 
+BAYESTAR fits distance per-pixel as a post-processing step. 
+The remaining conditional posterior probability for the luminosity distance along a specific line of sight is approximated using an ansatz
+-->
 
 ---
 
@@ -1093,10 +1122,14 @@ Orange: HL network · Blue: HLV network
 Error bars: 5th–95th percentile of posterior *(same MDC dataset)*
 
 **Result:** 
-- Recovery is **unbiased** across $\mathcal{M}_c \in [10, 100]\,M_\odot$.
+- Recovery is **accurate** across $\mathcal{M}_c \in [10, 100]\,M_\odot$.
 - Scatter increases at higher masses as shorter signals carry less inspiral phase information
 
-<!-- -->
+<!-- 
+Crowded plot, but the main point is that chirp mass estimation for O3 MDC is good.
+
+Matched filtering pipelines provide only a point estimate - no error bars.
+-->
 
 ---
 
@@ -1112,7 +1145,11 @@ Error bars: 5th–95th percentile of posterior *(same MDC dataset)*
 
 All parameters show uniform coverage &rarr; AMPLFI posteriors are **unbiased**
 
-<!-- -->
+<!-- 
+Don't need to spend too much time here; briefly explain plot and that posteriors for measured parameters are unbiased.
+
+Keep in mind for questions: evaluating on samples not drawn from training prior will generally not be unbiased.
+-->
 
 ---
 
@@ -1127,11 +1164,13 @@ All parameters show uniform coverage &rarr; AMPLFI posteriors are **unbiased**
 - **GW200224_222234:** clean agreement across all parameters
 
 <!-- 
-Selection criteria: (1) p_astro > 0.5; (2) parameters within AMPLFI training prior (Mc 10–100 Msun, distance within uniform prior); (3) occurred during or after AMPLFI's training period (O3b onward); (4) no glitch mitigation required. 
+Selection criteria: (1) p_astro > 0.5; (2) parameters within AMPLFI training prior (Mc 10–100 Msun, distance within prior); (3) occurred during or after AMPLFI's training period (O3b onward); (4) no glitch mitigation required. 
 
-Three additional distance-railing events (GW200220, GW200128, GW191222) were analyzed separately — sky maps and masses in rough agreement with GWTC-3, but distance posteriors hit the prior boundary. 
+In general, don't expect AMPLFI to be as tightly constrained as bilby.
 
-Some other events do not show as good of agreement. Differences vs GWTC-3 PE arise from: different waveform (IMRPhenomPv2 vs IMRPhenomXPHM — no higher modes), inaufficiently trained model, AMPLFI uses low-latency data. -->
+Three additional distance-railing events (GW200220, GW200128, GW191222) were analyzed separately. Sky maps and masses in rough agreement with GWTC-3, but distance posteriors hit the prior boundary. 
+
+Some other events do not show as good of agreement. Differences vs GWTC-3 PE arise from: different waveform (IMRPhenomPv2 vs IMRPhenomXPHM — no higher modes), insufficiently trained model, AMPLFI uses low-latency data. -->
 
 ---
 
@@ -1141,7 +1180,7 @@ Some other events do not show as good of agreement. Differences vs GWTC-3 PE ari
 
 Evaluate P-P tests (left) and searched area (right)
 
-**Result: no degradation over 11 weeks.** All four epochs within calibration bands.
+**Result: no degradation over 11 weeks.** All four epochs within error bands.
 
 <div class="center">
 
@@ -1149,7 +1188,13 @@ Evaluate P-P tests (left) and searched area (right)
 
 </div>
 
-<!-- -->
+<!-- 
+Just like with Aframe, we care about the longevity of these models.
+
+With this set of results, these models are production-capable.
+
+Now we need the deployment infrastructure.
+-->
 
 ---
 
