@@ -1,0 +1,286 @@
+/* @theme defense */
+@import 'default';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ════════════════════════════════════════════════════════════════
+   TOKENS — GitHub Dark (default)
+   To switch themes, paste any block from the PALETTE section below
+   into the <style> tag in defense.md, dropping the ".THEME" class.
+   ════════════════════════════════════════════════════════════════ */
+section {
+  --clr-bg:           #0d1117;
+  --clr-surface:      #1c2128;
+  --clr-border:       #21262d;
+  --clr-border-sub:   #30363d;
+  --clr-text:         #e6edf3;
+  --clr-muted:        #8b949e;
+  --clr-dim:          #484f58;
+  --clr-h1:           #58a6ff;
+  --clr-h2:           #79c0ff;
+  --clr-h3:           #a5d6ff;
+  --clr-accent:       #f78166;
+  --clr-em:           #a5d6ff;
+  --clr-link:         #58a6ff;
+  --clr-code-bg:      #161b22;
+  --clr-code-fg:      #f0883e;
+  --clr-alert-bg:     #1c2128;
+  --clr-alert-bd:     #58a6ff;
+  --clr-alert-red-bg: #1a0e0e;
+  --clr-alert-red-bd: #f78166;
+
+  background-color: var(--clr-bg);
+  color:            var(--clr-text);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, sans-serif;
+  font-size: 27px;
+  padding: 50px 60px;
+  text-align: left;
+}
+
+/* ── Typography ─────────────────────────────────────────────── */
+h1 {
+  color: var(--clr-h1);
+  border-bottom: 2px solid var(--clr-border);
+  padding-bottom: 0.2em;
+  margin: 0 0 0.3em;
+  font-size: 1.35em;
+}
+h2     { color: var(--clr-h2); font-size: 1.1em;  margin: 0.5em 0 0.2em; }
+h3     { color: var(--clr-h3); font-size: 0.95em; margin: 0.35em 0 0.15em; }
+p      { margin: 0.2em 0; }
+strong { color: var(--clr-accent); }
+em     { color: var(--clr-em); font-style: normal; }
+a      { color: var(--clr-link); }
+code {
+  background-color: var(--clr-code-bg);
+  color:            var(--clr-code-fg);
+  border-radius: 4px;
+  padding: 0.05em 0.3em;
+  font-size: 0.82em;
+  font-family: 'JetBrains Mono', SF Mono, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+ul, ol { padding-left: 1.4em; margin: 0.3em 0; }
+li     { margin-bottom: 0.2em;  line-height: 1.4; }
+li li  { font-size: 0.88em; color: var(--clr-muted); margin-bottom: 0.15em; }
+table  { border-collapse: collapse; width: 100%; font-size: 0.82em; }
+th {
+  background-color: var(--clr-surface);
+  color:            var(--clr-h2);
+  padding: 0.45em 0.8em;
+  border-bottom: 2px solid var(--clr-border-sub);
+}
+td { padding: 0.35em 0.8em; border-bottom: 1px solid var(--clr-border); color: var(--clr-text); background-color: var(--clr-bg); }
+tr:nth-child(even) td { background-color: var(--clr-surface); color: var(--clr-text); }
+header, footer { color: var(--clr-dim); font-size: 0.62em; }
+section::after  { color: var(--clr-dim); font-size: 0.7em; }
+
+/* ── Lead / title slides ────────────────────────────────────── */
+:is(section:has(.part-break),section:first-of-type, section:last-of-type) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+:is(section:has(.part-break),section:first-of-type, section:last-of-type) h1 {
+  border-bottom: none;
+  font-size: 1.55em;
+  max-width: 88%;
+  line-height: 1.35;
+  margin-bottom: 0.6em;
+  color: var(--clr-h1);
+}
+:is(section:has(.part-break),section:first-of-type, section:last-of-type) p      { color: var(--clr-muted); font-size: 0.88em; margin: 0.2em 0; }
+:is(section:has(.part-break),section:first-of-type, section:last-of-type) strong { color: var(--clr-text); }
+
+/* ── Utility classes ────────────────────────────────────────── */
+.part-break { display: none; }
+.rule {
+  width: 65%;
+  border: none;
+  border-top: 1px solid var(--clr-border-sub);
+  margin: 0.7em auto;
+  display: block;
+}
+.columns     { display: grid; grid-template-columns: 1fr 1fr;     gap: 1.6em; align-items: start; }
+.columns-3   { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2em; align-items: start; }
+.columns-2-3 { display: grid; grid-template-columns: 2fr 3fr;     gap: 1.6em; align-items: start; }
+.columns-1-2 { display: grid; grid-template-columns: 1fr 2fr;     gap: 1.6em; align-items: start; }
+.columns-3-2 { display: grid; grid-template-columns: 3fr 2fr;     gap: 1.6em; align-items: start; }
+.grid-2-tight { display: grid; grid-template-columns: 1fr 1fr;    gap: 0.5em; align-items: start; }
+.caption   { font-size: 0.6em; color: var(--clr-muted); text-align: center; margin-top: 0.3em; }
+.footnote  { font-size: 0.72em; color: var(--clr-muted); margin-top: 0.4em; }
+.center    { display: flex; justify-content: center; width: 100%; flex-direction: column; align-items: center; }
+
+.alert-box, .alert-box-red {
+  border-radius: 0 6px 6px 0;
+  padding: 0.5em 0.9em;
+  margin: 0.6em 0;
+}
+.alert-box     { background-color: var(--clr-alert-bg);     border-left: 4px solid var(--clr-alert-bd); }
+.alert-box-red { background-color: var(--clr-alert-red-bg); border-left: 4px solid var(--clr-alert-red-bd); }
+
+.number-row    { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; text-align: center; margin: 0.8em 0; }
+.big-num       { font-size: 2.2em; font-weight: 700; color: var(--clr-accent); display: block; }
+.big-num-label { font-size: 0.75em; color: var(--clr-muted); }
+
+.fig-placeholder {
+  border: 2px dashed var(--clr-border-sub);
+  border-radius: 6px;
+  padding: 1.5em;
+  color: var(--clr-muted);
+  font-size: 0.75em;
+  text-align: center;
+  font-style: italic;
+  margin: 0.5em 0;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PALETTE
+   These classes are available for individual slide overrides via
+   <!-- _class: THEME --> but are primarily used as copy-paste
+   sources for the <style> block in defense.md.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Nord ── https://www.nordtheme.com/docs/colors-and-palettes */
+section.nord {
+  --clr-bg:           #2e3440;  --clr-surface:      #3b4252;
+  --clr-border:       #3b4252;  --clr-border-sub:   #434c5e;
+  --clr-text:         #d8dee9;  --clr-muted:        #9099ab;  --clr-dim: #4c566a;
+  --clr-h1:           #88c0d0;  --clr-h2:           #81a1c1;  --clr-h3: #a3be8c;
+  --clr-accent:       #d08770;  --clr-em:           #a3be8c;  --clr-link: #88c0d0;
+  --clr-code-bg:      #3b4252;  --clr-code-fg:      #ebcb8b;
+  --clr-alert-bg:     #3b4252;  --clr-alert-bd:     #88c0d0;
+  --clr-alert-red-bg: #3d2a2a;  --clr-alert-red-bd: #bf616a;
+}
+
+/* ── Catppuccin Mocha ── https://github.com/catppuccin/catppuccin */
+section.ctp {
+  --clr-bg:           #1e1e2e;  --clr-surface:      #313244;
+  --clr-border:       #313244;  --clr-border-sub:   #45475a;
+  --clr-text:         #cdd6f4;  --clr-muted:        #a6adc8;  --clr-dim: #6c7086;
+  --clr-h1:           #89b4fa;  --clr-h2:           #b4befe;  --clr-h3: #cba6f7;
+  --clr-accent:       #fab387;  --clr-em:           #a6e3a1;  --clr-link: #89b4fa;
+  --clr-code-bg:      #181825;  --clr-code-fg:      #fab387;
+  --clr-alert-bg:     #313244;  --clr-alert-bd:     #89b4fa;
+  --clr-alert-red-bg: #2d1929;  --clr-alert-red-bd: #f38ba8;
+}
+
+/* ── Catppuccin Latte ── */
+section.ctp-latte {
+  --clr-bg:           #eff1f5;  --clr-surface:      #e6e9ef;
+  --clr-border:       #dce0e8;  --clr-border-sub:   #ccd0da;
+  --clr-text:         #4c4f69;  --clr-muted:        #7c7f93;  --clr-dim: #9ca0b0;
+  --clr-h1:           #1e66f5;  --clr-h2:           #7287fd;  --clr-h3: #8839ef;
+  --clr-accent:       #fe640b;  --clr-em:           #40a02b;  --clr-link: #1e66f5;
+  --clr-code-bg:      #dce0e8;  --clr-code-fg:      #d20f39;
+  --clr-alert-bg:     #e6e9ef;  --clr-alert-bd:     #1e66f5;
+  --clr-alert-red-bg: #fde8e8;  --clr-alert-red-bd: #d20f39;
+}
+
+/* ── Dracula ── https://draculatheme.com/contribute#color-palette */
+section.dracula {
+  --clr-bg:           #282a36;  --clr-surface:      #44475a;
+  --clr-border:       #44475a;  --clr-border-sub:   #6272a4;
+  --clr-text:         #f8f8f2;  --clr-muted:        #a0a8cf;  --clr-dim: #6272a4;
+  --clr-h1:           #bd93f9;  --clr-h2:           #ff79c6;  --clr-h3: #8be9fd;
+  --clr-accent:       #ffb86c;  --clr-em:           #50fa7b;  --clr-link: #8be9fd;
+  --clr-code-bg:      #44475a;  --clr-code-fg:      #f1fa8c;
+  --clr-alert-bg:     #44475a;  --clr-alert-bd:     #bd93f9;
+  --clr-alert-red-bg: #3d1f30;  --clr-alert-red-bd: #ff5555;
+}
+
+/* ── Gruvbox Dark ── https://github.com/morhetz/gruvbox */
+section.gruvbox {
+  --clr-bg:           #282828;  --clr-surface:      #3c3836;
+  --clr-border:       #3c3836;  --clr-border-sub:   #504945;
+  --clr-text:         #ebdbb2;  --clr-muted:        #bdae93;  --clr-dim: #7c6f64;
+  --clr-h1:           #83a598;  --clr-h2:           #8ec07c;  --clr-h3: #b8bb26;
+  --clr-accent:       #fe8019;  --clr-em:           #b8bb26;  --clr-link: #83a598;
+  --clr-code-bg:      #1d2021;  --clr-code-fg:      #fabd2f;
+  --clr-alert-bg:     #3c3836;  --clr-alert-bd:     #83a598;
+  --clr-alert-red-bg: #3c2020;  --clr-alert-red-bd: #fb4934;
+}
+
+/* ── Rosé Pine ── https://rosepinetheme.com/palette/ */
+section.rosepine {
+  --clr-bg:           #191724;  --clr-surface:      #1f1d2e;
+  --clr-border:       #26233a;  --clr-border-sub:   #403d52;
+  --clr-text:         #e0def4;  --clr-muted:        #908caa;  --clr-dim: #6e6a86;
+  --clr-h1:           #ebbcba;  --clr-h2:           #c4a7e7;  --clr-h3: #9ccfd8;
+  --clr-accent:       #eb6f92;  --clr-em:           #f6c177;  --clr-link: #9ccfd8;
+  --clr-code-bg:      #1f1d2e;  --clr-code-fg:      #f6c177;
+  --clr-alert-bg:     #1f1d2e;  --clr-alert-bd:     #ebbcba;
+  --clr-alert-red-bg: #2d1520;  --clr-alert-red-bd: #eb6f92;
+}
+
+/* ── Tokyo Night ── https://github.com/enkia/tokyo-night-vscode-theme */
+section.tokyo-night {
+  --clr-bg:           #1a1b26;  --clr-surface:      #24283b;
+  --clr-border:       #292e42;  --clr-border-sub:   #3b4261;
+  --clr-text:         #c0caf5;  --clr-muted:        #9aa5ce;  --clr-dim: #565f89;
+  --clr-h1:           #7aa2f7;  --clr-h2:           #7dcfff;  --clr-h3: #bb9af7;
+  --clr-accent:       #ff9e64;  --clr-em:           #9ece6a;  --clr-link: #7dcfff;
+  --clr-code-bg:      #24283b;  --clr-code-fg:      #e0af68;
+  --clr-alert-bg:     #24283b;  --clr-alert-bd:     #7aa2f7;
+  --clr-alert-red-bg: #2d1515;  --clr-alert-red-bd: #f7768e;
+}
+
+/* ── Everforest Dark ── https://github.com/sainnhe/everforest */
+section.everforest {
+  --clr-bg:           #2d353b;  --clr-surface:      #343f44;
+  --clr-border:       #3d484d;  --clr-border-sub:   #475258;
+  --clr-text:         #d3c6aa;  --clr-muted:        #9da9a0;  --clr-dim: #7a8478;
+  --clr-h1:           #7fbbb3;  --clr-h2:           #a7c080;  --clr-h3: #d699b6;
+  --clr-accent:       #e69875;  --clr-em:           #dbbc7f;  --clr-link: #7fbbb3;
+  --clr-code-bg:      #272e33;  --clr-code-fg:      #dbbc7f;
+  --clr-alert-bg:     #343f44;  --clr-alert-bd:     #7fbbb3;
+  --clr-alert-red-bg: #3a2828;  --clr-alert-red-bd: #e67e80;
+}
+
+/* ── One Dark Pro ── https://github.com/Binaryify/OneDark-Pro */
+section.one-dark {
+  --clr-bg:           #282c34;  --clr-surface:      #2c313c;
+  --clr-border:       #3e4452;  --clr-border-sub:   #4b5263;
+  --clr-text:         #abb2bf;  --clr-muted:        #7f848e;  --clr-dim: #5c6370;
+  --clr-h1:           #61afef;  --clr-h2:           #56b6c2;  --clr-h3: #c678dd;
+  --clr-accent:       #e5c07b;  --clr-em:           #98c379;  --clr-link: #61afef;
+  --clr-code-bg:      #21252b;  --clr-code-fg:      #e5c07b;
+  --clr-alert-bg:     #2c313c;  --clr-alert-bd:     #61afef;
+  --clr-alert-red-bg: #2d1d1f;  --clr-alert-red-bd: #e06c75;
+}
+
+/* ── Solarized Light ── https://ethanschoonover.com/solarized/ */
+section.solarized {
+  --clr-bg:           #fdf6e3;  --clr-surface:      #eee8d5;
+  --clr-border:       #e5deca;  --clr-border-sub:   #d2c9b5;
+  --clr-text:         #657b83;  --clr-muted:        #839496;  --clr-dim: #93a1a1;
+  --clr-h1:           #268bd2;  --clr-h2:           #2aa198;  --clr-h3: #6c71c4;
+  --clr-accent:       #cb4b16;  --clr-em:           #859900;  --clr-link: #268bd2;
+  --clr-code-bg:      #eee8d5;  --clr-code-fg:      #d30102;
+  --clr-alert-bg:     #eee8d5;  --clr-alert-bd:     #268bd2;
+  --clr-alert-red-bg: #fde8d8;  --clr-alert-red-bd: #cb4b16;
+}
+
+/* ── Solarized Dark ── https://ethanschoonover.com/solarized/ */
+section.solarized-dark {
+  --clr-bg:           #002b36;  --clr-surface:      #073642;
+  --clr-border:       #073642;  --clr-border-sub:   #586e75;
+  --clr-text:         #839496;  --clr-muted:        #657b83;  --clr-dim: #586e75;
+  --clr-h1:           #268bd2;  --clr-h2:           #2aa198;  --clr-h3: #6c71c4;
+  --clr-accent:       #cb4b16;  --clr-em:           #859900;  --clr-link: #268bd2;
+  --clr-code-bg:      #073642;  --clr-code-fg:      #b58900;
+  --clr-alert-bg:     #073642;  --clr-alert-bd:     #268bd2;
+  --clr-alert-red-bg: #1a0d0d;  --clr-alert-red-bd: #dc322f;
+}
+
+/* ── Flexoki Light ── https://stephango.com/flexoki */
+section.flexoki {
+  --clr-bg:           #fffcf0;  --clr-surface:      #f2f0e5;
+  --clr-border:       #e6e4d9;  --clr-border-sub:   #dad8ce;
+  --clr-text:         #100f0f;  --clr-muted:        #6f6e69;  --clr-dim: #b7b5ac;
+  --clr-h1:           #205ea6;  --clr-h2:           #24837b;  --clr-h3: #5c35ce;
+  --clr-accent:       #af3029;  --clr-em:           #66800b;  --clr-link: #205ea6;
+  --clr-code-bg:      #e6e4d9;  --clr-code-fg:      #af3029;
+  --clr-alert-bg:     #f2f0e5;  --clr-alert-bd:     #205ea6;
+  --clr-alert-red-bg: #fce8e6;  --clr-alert-red-bd: #af3029;
+}

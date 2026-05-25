@@ -1,0 +1,67 @@
+%% aframe_pipeline.tex — Aframe detection pipeline block diagram
+%% Compile:  pdflatex aframe_pipeline.tex && pdfcrop aframe_pipeline.pdf aframe_pipeline-crop.pdf
+%% Then copy aframe_pipeline-crop.pdf/.png to ../figures/
+\documentclass{article}
+\usepackage[margin=0.6cm, paperwidth=24cm, paperheight=6cm]{geometry}
+\pagestyle{empty}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, fit, backgrounds, calc, shapes.geometric}
+
+%% ── colour palette (matches slides theme) ──────────────────────────────────
+\colorlet{datafill}  {gray!14}     \colorlet{databrd}   {gray!55!black}
+\colorlet{procfill}  {blue!11}     \colorlet{procbrd}   {blue!55!black}
+\colorlet{netfill}   {teal!14}     \colorlet{netbrd}    {teal!55!black}
+\colorlet{intfill}   {orange!12}   \colorlet{intbrd}    {orange!60!black}
+\colorlet{outfill}   {green!12}    \colorlet{outbrd}    {green!55!black}
+\colorlet{arrowclr}  {gray!60!black}
+
+\begin{document}
+\pagecolor{white}
+\begin{tikzpicture}[
+  >=Stealth,
+  every node/.style={font=\normalsize, align=center},
+  %% block styles
+  data/.style  ={draw=databrd,  fill=datafill,  rounded corners=4pt, minimum width=2.0cm, minimum height=1.0cm, text width=2.0cm},
+  proc/.style  ={draw=procbrd,  fill=procfill,  rounded corners=4pt, minimum width=2.2cm, minimum height=1.0cm, text width=2.2cm},
+  net/.style   ={draw=netbrd,   fill=netfill,   rounded corners=4pt, minimum width=2.4cm, minimum height=1.0cm, text width=2.4cm},
+  intg/.style  ={draw=intbrd,   fill=intfill,   rounded corners=4pt, minimum width=2.2cm, minimum height=1.0cm, text width=2.2cm},
+  out/.style   ={draw=outbrd,   fill=outfill,   rounded corners=4pt, minimum width=2.2cm, minimum height=1.0cm, text width=2.2cm},
+  arr/.style   ={->, thick, color=arrowclr},
+  lbl/.style   ={font=\small, color=gray!70!black},
+]
+
+%% ── nodes ────────────────────────────────────────────────────────────────
+\node[data]  (h1)  at (0, 0.55) {H1 strain\\{\small 2048 Hz}};
+\node[data]  (l1)  at (0,-0.55) {L1 strain\\{\small 2048 Hz}};
+
+\node[proc]  (wh)  at (3.0, 0) {Whitener\\{\small online PSD}};
+
+\node[net]   (nn)  at (6.3, 0) {ResNet-34\\{\small 1D conv}};
+
+\node[intg]  (ig)  at (9.5, 0) {1\,s top-hat\\integrator};
+
+\node[intg]  (pf)  at (12.5, 0){Peak finder\\{\small threshold}};
+
+\node[out]   (tr)  at (15.6, 0){Trigger\\{\small + merger time}};
+
+%% ── arrows ───────────────────────────────────────────────────────────────
+\draw[arr] (h1.east) -- ++(0.55,0) |- (wh.west);
+\draw[arr] (l1.east) -- ++(0.55,0) |- (wh.west);
+\draw[arr] (wh)  -- node[above, lbl] {{\small [2,3072]}} (nn);
+\draw[arr] (nn)  -- node[above, lbl] {{\small stat}} (ig);
+\draw[arr] (ig)  -- (pf);
+\draw[arr] (pf)  -- (tr);
+
+%% ── latency annotation ───────────────────────────────────────────────────
+\draw[decorate, decoration={brace, amplitude=6pt, raise=14pt},
+      color=gray!55, thick]
+  (wh.south west) -- (tr.south east)
+  node[midway, below=22pt, font=\small, color=gray!65!black]
+  {end-to-end latency $\approx 3.1$\,s \quad (NN inference $<10$\,ms)};
+
+%% ── stride labels ────────────────────────────────────────────────────────
+\node[lbl, above=8pt of nn]  {stride: 4\,Hz \emph{(significance)} / 512\,Hz \emph{(timing)}};
+
+\end{tikzpicture}
+\end{document}
