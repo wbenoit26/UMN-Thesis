@@ -36,7 +36,11 @@ May 27th,  2026
 
 <!-- _footer: NASA's Goddard Space Flight Center/Scott Noble; simulation data, d'Ascoli et al. 2018 -->
 
-<!-- -->
+<!-- 
+Good morning. I'm going to be presenting the work that I've done, alongside a number of others, to apply machine learning to the problem of detecting and characterizing gravitational waves in real time.
+I want to emphasize the real-time aspect: the goal of these projects from the outset was to be integrated into
+production systems and produce alerts for the broader community.
+-->
 
 ---
 
@@ -50,6 +54,8 @@ May 27th,  2026
 <div class="rule"></div>
 
 *Gravitational waves, detectors, and traditional methods*
+
+<!-- To begin, I go over some foundational material: how gravitational waves arise, the basics of the hardware and software used to detect them -->
 
 ---
 
@@ -70,7 +76,11 @@ GR predicts that accelerating masses radiate energy as **gravitational waves**
 
 </div>
 
-<!-- Straightest possible path: geodesic-->
+<!-- 
+- Rather than space being a fixed stage for physics to play out on, it is dynamic and deeply interconnected with mass and motion
+- Absent a force, straightest possible path: geodesic
+- Interplay between curvature and matter is what gives rise to complexity
+-->
 
 ---
 
@@ -99,7 +109,11 @@ $\Delta L/L \sim 10^{-21}$ &rarr; The distance from Earth to the nearest star wo
 </div>
 </div>
 
-<!-- Note: strain value is what we're capable of detecting -->
+<!-- 
+plus and cross are typical polzarizations, but there are others
+Animation shows the effect of a gravitational wave passing into the slide on a ring of particle over one full period
+Note: strain value is what we're capable of detecting 
+-->
 
 ---
 
@@ -120,7 +134,46 @@ In that fraction of a second, a merging binary radiates more energy as gravitati
 </div>
 
 
-<!-- -->
+<!-- 
+These objects start off ~millions of kilometers apart, slowly losing energy, then more rapidly
+
+Note: stat is about luminosity, not total energy
+-->
+
+---
+
+# Binary Merger Progression
+
+<div class="columns">
+<div>
+
+As the two objects spiral inward, the signal passes through three phases:
+
+**1. Inspiral**
+- Frequency and amplitude both increase
+- Well-described by analytical expression
+
+**2. Merger**
+- Peak luminosity briefly exceeds all stars in the observable universe
+- Requires full numerical relativity
+
+**3. Ringdown**
+- Final object "rings" like a struck bell
+- Oscillation at quasinormal modes
+
+</div>
+<div>
+
+![h:500](../figures/slides/cbc_phases.png)
+
+</div>
+</div>
+
+<!-- 
+Inspiral phase until innermost stable circular orbit
+
+Make sure to describe image
+-->
 
 ---
 
@@ -147,38 +200,11 @@ Three types of compact binary mergers detected so far:
 </div>
 </div>
 
-<!-- -->
+<!--
+There are a couple we're not totally confident in classifying
 
----
-
-# Binary Merger Progression
-
-<div class="columns">
-<div>
-
-As the two objects spiral inward, the signal passes through three phases:
-
-**1. Inspiral**
-- Frequency and amplitude both increase
-- Well-described by analytical expression
-
-**2. Merger**
-- Peak luminosity briefly exceeds all stars in the observable universe
-- Requires full numerical relativity
-
-**3. Ringdown**
-- Final object "rings" like a struck bell
-- Oscillation at quasinormal mode
-
-</div>
-<div>
-
-![w:100%](../figures/slides/cbc_phases.png)
-
-</div>
-</div>
-
-<!--  -->
+Rate of detections increases every observing run
+-->
 
 ---
 
@@ -200,7 +226,7 @@ section
 
 **H1** · Hanford, WA &nbsp;&nbsp;&nbsp; **L1** · Livingston, LA
 
-Two **4 km** L-shaped interferometers, ~3000 km apart
+**4 km** L-shaped interferometers, ~3000 km apart
 
 - Light travel time between H1 and L1: **~10 ms**; 
 sets the coincidence window
@@ -215,20 +241,24 @@ sets the coincidence window
 <!-- _footer: Credit: https://www.ligo.caltech.edu/LA/image/ligo20150731a -->
 
 <!-- 
+Photo is of LLO
+
+Pretty incredible feats of engineering
+
 One of the largest vacuum systems on Earth (~10,000 cubic meters), second only to LHC
 
 40 kg fused silica mirrors suspended from quadruple pendulum for seismic isolation
 
 Mirror surface flatness ~1 nm RMS: scaled to the size of the Earth, the tallest mountain would be ~2 cm
 
-V1 and K1 are 3 km, LIGO-India is 4 km
+V1 and K1 are 3 km, LIGO-India is 4 km and just broke ground last month
 -->
 
 ---
 
 # How Do We Detect Gravitational Waves?
 
-**Main idea:** a passing GW stretches one arm and compresses the other
+A passing GW *stretches* one arm and *compresses* the other
 
 <div class="columns">
 <div>
@@ -251,9 +281,11 @@ V1 and K1 are 3 km, LIGO-India is 4 km
 </div>
 
 <!-- 
-**Signal amplification:**
+Reference image while talking
 
-Fabry-Perot cavities: light bounces ~300 times per arm → effective path length ~1200 km
+Number of features for signal amplification:
+
+Fabry-Perot cavities: light bounces ~300 times per arm: effective path length ~1200 km
 
 Power recycling mirror boosts circulating power from ~100 W input to ~200 kW inside the arms
 
@@ -267,7 +299,7 @@ Frequency-dependent quantum squeezing introduced in O4 to reduce shot noise at h
 <div class="columns">
 <div>
 
-The **amplitude spectral density (ASD)**: how much noise is in each frequency range
+The **amplitude spectral density (ASD)**: how much noise at each frequency
 
 **Three main noise regimes:**
 
@@ -290,7 +322,12 @@ Most signals sweep through **~20–500 Hz**, right in the sensitive band of the 
 </div>
 </div>
 
-<!-- -->
+<!--
+Given the scale of strain we need to detect, it's not surprising that noise is a major factor.
+Instrument is designed to be most sensitive in the range of CBC signals
+
+ASD and its square, the power spectral density, will be referenced throughout
+-->
 
 ---
 
@@ -299,7 +336,7 @@ Most signals sweep through **~20–500 Hz**, right in the sensitive band of the 
 <div class="columns">
 <div>
 
-**Main idea:** compute the overlap between the data and a template waveform
+**Main idea:** compute the overlap between the data and a template waveform:
 
 $$
     \rho^2(t) = 4 \Re \int_0^\infty \frac{\tilde{d}(f)\, \tilde{h}^*(f)}{S_n(f)}\, e^{2\pi i f t}\, \mathrm{d}f
@@ -309,7 +346,7 @@ $$
 - $d$ = detector data; &nbsp; $h$ = template
 - Noise-weighted by the ASD
 
-**When the SNR spikes:** candidate event, significance determined by peak
+**When the SNR spikes:** candidate event, significance determined by peak height
 
 **Strengths:** optimal for Gaussian noise, well-understood statistics
 
@@ -321,7 +358,11 @@ $$
 </div>
 </div>
 
-<!-- -->
+<!--
+Now, I've never found the formula to be the most intuitive way of understanding the process.
+
+Animation gives much better idea, <describe components>
+-->
 
 ---
 
@@ -347,11 +388,26 @@ $$
 ![w:100%](../figures/slides/template_bank.png)
 <p class="caption"> Credit: https://doi.org/10.1103/PhysRevD.103.084047 </p>
 
+<div class="alert-box">
+
+A neural network can detect signals **directly** from strain data, bypassing the template bank entirely
+
+</div>
+
 </div>
 
 </div>
 
-<!-- Detection is half of the picture; after detecting, we want to know about the source system -->
+<!-- 
+Ideally, we'd just try every possible waveform, but unfortunately we lack infinite computing power.
+Though, if they keep building data-centers, who knows?
+Instead...
+
+Mass range covers NSs and "stellar mass" black holes - templates shown as points in image
+
+Detection is half of the picture; after detecting, we want to know about the source system; template gives only a point estimate, and only for some parameters
+
+-->
 
 ---
 
@@ -384,7 +440,13 @@ $$p(\theta \mid d) \propto \mathcal{L}(d \mid \theta)\, \pi(\theta)$$
 </div>
 </div>
 
-<!-- Source parameters include masses, spins, sky location, distance, inclination, etc. 15D space. -->
+<!-- 
+Make sure each term is defined
+
+Corner plot is example of what we want to produce, showing 1D and 2D posteriors
+
+Source parameters include masses, spins, sky location, distance, inclination, etc. 15D space. 
+-->
 
 ---
 
@@ -400,27 +462,32 @@ Evaluating the likelihood $\mathcal{L}(d \mid \theta)$ at each proposed sample r
 <div>
 
 **Bilby:** $\mathcal{O}$(hours)
-- Each waveform generation: ~10 ms
+- Each likelihood step: ~10 ms
 - $10^6$–$10^7$ evaluations × 10 ms = 3–30 hrs
 
 **BAYESTAR:** $\mathcal{O}$(seconds)
 - Skips the likelihood entirely
-- However, requires **SNR time series**; uses relative timing/amplitude to reconstruct sky position
+- Requires **SNR time series**; uses relative timing/amplitude to reconstruct sky position only
 
 </div>
 <div>
 
 <div class="alert-box">
 
-**The bottleneck is the likelihood loop.**
-A machine learning model can learn the posterior directly from simulated data, bypassing the likelihood evaluation
+A machine learning model can learn the posterior **directly** from simulated data, bypassing the likelihood evaluation entirely
 
 </div>
 
 </div>
 </div>
 
-<!-- Bilby time varies based on assumptions made for low-latency vs full -->
+<!-- 
+Noise-weighted inner product = matched filtering formula shown earlier
+
+Bilby time varies based on assumptions made for low-latency vs full
+
+BAYESTAR doesn't generate posteriors for other parameters, and still requires the challenges of matched filtering
+-->
 
 ---
 
@@ -453,7 +520,15 @@ First binary neutron star + EM detection
 
 A single event provided the first direct evidence of BNS mergers as an origin of *short GRBs* and a site of *r-process nucleosynthesis*, plus an independent measurement of *$H_0$*
 
-<!-- In GW170817, a glitch in L1 required manual intervention — the first 3-detector BAYESTAR skymap was not released until ~11 hours post-merger. The initial 2-detector sky map was ~190 deg², later refined to ~28 deg². -->
+<!-- 
+The motivation for solving these challenges comes from...
+
+Briefly describe event, talk through table, point out how more detectors restricts the possible sky location.
+
+Discuss how exciting this was scientifically
+
+In GW170817, a glitch in L1 required manual intervention — the first 3-detector BAYESTAR skymap was not released until ~11 hours post-merger. The initial 2-detector sky map was ~190 deg², later refined to ~28 deg².
+-->
 
 ---
 
@@ -474,6 +549,14 @@ A single event provided the first direct evidence of BNS mergers as an origin of
 **Aframe** for robust, independent detection &nbsp;+&nbsp; **AMPLFI** for full posteriors in **seconds**
 
 </div>
+
+<!-- 
+GW170817 was a lucky observation: only 40 Mpc away, all detectors active, observed by Fermi despite the GRB being off-axis and relatively weak.
+
+Given the scarcity of BNSs, we don't want to rely on luck.
+
+We've developed and deployed two algorithms...s
+-->
 
 ---
 
