@@ -38,7 +38,7 @@
 %% ════════════════════════════════════════════════════════════
 \node[sec] at (2.5, 20.0) {Event Creation Subprocess};
 
-\node[prod] (ev_json)  at (2.5, 18.8) {Write event JSON\\{\footnotesize gpstime, FAR, far\_per\_year}};
+\node[prod] (ev_json)  at (2.5, 18.8) {Write event JSON\\{\footnotesize gpstime, FAR}};
 \node[prod] (ev_http)  at (2.5, 17.2) {Submit to GraceDB\\{\footnotesize REST API (HTTP)}};
 \node[gdb]  (gdb_ev)   at (2.5, 15.2)
   {{\bfseries G-event created}\\{\footnotesize group: CBC, pipeline: aframe}\\{\footnotesize search: AllSky}};

@@ -32,7 +32,7 @@ Advisor: Michael Coughlin
 
 University of Minnesota 
 PhD Defense
-May 27th,  2026
+May 27th, 2026
 
 <!-- _footer: NASA's Goddard Space Flight Center/Scott Noble; simulation data, d'Ascoli et al. 2018 -->
 
@@ -110,7 +110,7 @@ $\Delta L/L \sim 10^{-21}$ &rarr; The distance from Earth to the nearest star wo
 </div>
 
 <!-- 
-plus and cross are typical polzarizations, but there are others
+plus and cross are typical polarizations, but there are others
 Animation shows the effect of a gravitational wave passing into the slide on a ring of particle over one full period
 Note: strain value is what we're capable of detecting 
 -->
@@ -1189,11 +1189,7 @@ Evaluate P-P tests (left) and searched area (right)
 </div>
 
 <!-- 
-Just like with Aframe, we care about the longevity of these models.
-
-With this set of results, these models are production-capable.
-
-Now we need the deployment infrastructure.
+Just like with Aframe, we care about the longevity of AMPLFI, and we find that it's stable for months.
 -->
 
 ---
@@ -1209,11 +1205,19 @@ Now we need the deployment infrastructure.
 
 *End-to-end production pipeline in LIGO O4c*
 
+<!-- 
+With this set of results, these models are production-capable.
+
+Now we need the deployment infrastructure.
+
+I'll discuss how we set up the real-time analysis and present public results from O4c, the third part of the fourth observing run.
+-->
+
 ---
 
-# Online Deployment: O4c
+# Overview
 
-End-to-end production pipeline deployed **August - November 2025** (LIGO O4c)
+End-to-end production pipeline deployed **August &ndash; November 2025** (LIGO O4c)
 
 <div class="alert-box">
 
@@ -1239,11 +1243,56 @@ End-to-end production pipeline deployed **August - November 2025** (LIGO O4c)
 </div>
 </div>
 
-<!-- -->
+<!-- 
+I'll begin with an overview before moving into the more technical details
+-->
 
 ---
 
-# Aframe Online: Dual Inference Modes
+# Main Search Process
+
+Single **NVIDIA A30 GPU** runs Aframe + AMPLFI. **~11 s** from merger to upload.
+
+<div class="center">
+
+![h:480](../figures/aframe_software_arch-crop.png)
+
+</div>
+
+<!-- 
+This slide and the following one have some fairly complicated diagrams; I won't go through each element, but I want to give a sense of the flow of data.
+
+We start with data-loading on the left, and end with event submission on the right.
+
+Main process owns the GPU exclusively: loads frames, resamples, validates DQ flags, maintains 64 s GPU buffer for PSD estimation, runs Aframe, then hands trigger time to AMPLFI. 
+
+Subprocesses, discussed further on the next slide, handle tasks in parallel wherever possible to cut down on latency.
+-->
+
+---
+
+# Subprocess Communication
+
+**Design goal:** each sub-process starts the moment its upstream data is available
+
+<div class="center">
+
+![h:470](../figures/aframe_gracedb_flow-crop.png)
+
+</div>
+
+<!-- 
+We wanted each subprocess to kick off as soon as possible so that information can reach GraceDB as soon as possible.
+
+Once the main process identifies an event, in parallel:
+- The event is submitted with FAR and GPS time
+- AMPLFI's posterior samples are used to compute low-latency data products and submitted to graceid returned by event process
+- p_astro is calculated based on detection statistic and submitted once graceid is returned from event submission (in the future, this will incorporate source info from AMPLFI)
+-->
+
+---
+
+# Dual Inference Modes
 
 <div class="columns">
 <div>
@@ -1269,41 +1318,15 @@ End-to-end production pipeline deployed **August - November 2025** (LIGO O4c)
 
 </div>
 
-<!-- Evaluating FAR using the 512 Hz statistic created events $6\times$ too often.  The 512 Hz distribution **differs** from the 4 Hz timeslide background used to set the threshold. -->
-
----
-
-# O4c: Main Search Process
-
-Single **NVIDIA A30 GPU** runs Aframe + AMPLFI. **~11 s** from merger to upload.
-
-<div class="center">
-
-![h:480](../figures/aframe_software_arch-crop.png)
-
-</div>
-
 <!-- 
-Main process owns the GPU exclusively: loads frames, resamples, validates DQ flags, maintains 64 s GPU buffer for PSD estimation, runs Aframe at 4 Hz (significance) and 512 Hz (timing), then hands trigger time to AMPLFI. 
+One challenge we had to solve that was distinct from the offline case 
 
-64 s PSD burn-in after any data gap means ~1 min of data is unanalyzable after lock loss or restart. 
+Evaluating FAR using the 512 Hz statistic created events 6 times too often.  The 512 Hz distribution of detection statistics differs from the 4 Hz timeslide background used to set the threshold. 
 -->
 
 ---
 
-# O4c: Subprocess Communication
-
-**Design goal:** each sub-process starts the moment its upstream data is available
-
-<div class="center">
-
-![h:470](../figures/aframe_gracedb_flow-crop.png)
-
-</div>
-
----
-
-# O4c: Headline Results
+# Headline Results
 
 **24 CBC candidates** with H1-L1 data available during O4c
 
@@ -1318,21 +1341,25 @@ Main process owns the GPU exclusively: loads frames, resamples, validates DQ fla
 </div>
 <div>
 <span class="big-num">9</span>
-<span class="big-num-label">events where Aframe was<br/>first to GraceDB </span>
+<span class="big-num-label">events where Aframe was<br/>preferred at the time of alert </span>
 </div>
 </div>
 
-- 1 non-detection: **power outage** at detector site (not algorithm failure)
-- AMPLFI sky maps distributed via GCN for all **9 preferred events**
+- 1 non-detection: **power outage** at detector site
+- AMPLFI sky maps distributed via GCN for the **9 preferred events**
 - Participated in the **first CBC discovery by a neural network** in LVK production
 - Duty cycle and FAR requirements met throughout O4c
 - Monitored pipeline health and validated events throughout the run
 
-<!-- -->
+<!-- 
+This can just be read through
+
+"Preferred at the time of preliminary alert"
+-->
 
 ---
 
-# O4c: Aframe and AMPLFI in a Real Alert
+# Aframe and AMPLFI in a Real Alert
 
 <div class="columns">
 <div>
@@ -1356,11 +1383,15 @@ GCN Circular 41606 is the first time an ML pipeline triggered a preliminary aler
 </div>
 </div>
 
-<!-- Find a highly constrained skymap; 50% and 90% areas are sometimes smaller or larger than Bayestar -->
+<!-- 
+Read through until the last point, and then
+
+I actually double-checked, and this wasn't the first time a machine learning pipeline triggered a preliminary alert; the first time was also us, earlier the same day.
+-->
 
 ---
 
-# O4c: Example Sky Maps
+# Example Sky Maps
 
 <div class="grid-2-tight">
 
@@ -1379,29 +1410,21 @@ GCN Circular 41606 is the first time an ML pipeline triggered a preliminary aler
 
 </div>
 
-<!-- -->
+<div class="alert-box"> 
 
----
-
-# End-to-End Latency
-
-| | Aframe/AMPLFI | Traditional |
-|---|---|---|
-| Data acquisition → detection | **~3 s** | ~12 s |
-| + Sky map & full posteriors | **~5 s** | ~17 s (sky only) |
-| **Data acquisition → alert** | **~10 s** | **~29 s** |
-
-<div class="alert-box">
-
-AMPLFI delivers **full posteriors** ($\mathcal{M}_c$, $q$, $d_L$, sky) in the time matched-filter pipelines take to produce a sky-position-only alert and orders of magnitude faster than Bilby PE (tens of minutes to hours)
+In addition, Aframe + AMPLFI deliver **full posteriors** over ($\mathcal{M}_c$, $q$, $d_L$, $\theta_{JN}$, sky) in the time matched-filter pipelines take to produce a sky-position-only alert and orders of magnitude faster than Bilby PE (tens of minutes to hours)
 
 </div>
 
-<!-- -->
+<!-- 
+Found a highly constrained skymap: high significance alert (corresponds to example above)
+
+50% and 90% areas are sometimes smaller or larger than Bayestar 
+-->
 
 ---
 
-# Key Contributions
+# Summary of Developments
 
 <div class="columns-3">
 <div>
@@ -1411,14 +1434,14 @@ AMPLFI delivers **full posteriors** ($\mathcal{M}_c$, $q$, $d_L$, sky) in the ti
 - State-of-the-art ML GW detection
 - Competitive with matched filtering for high-mass BBH
 - Full O3 search: **38 GWTC-3** candidates + **3** from IAS/OGC catalogs
-- **3.1 s** detection latency
+- Detected **all possible** CBCs while live
 
 </div>
 <div>
 
 ### AMPLFI
 
-- ~1.5 second Bayesian PE
+- **~1.5** second Bayesian PE
 - Sky localization competitive with BAYESTAR
 - Calibrated posteriors consistent with Bilby on GWTC-3
 - **9 GCN alerts** distributed during O4c
@@ -1437,7 +1460,13 @@ AMPLFI delivers **full posteriors** ($\mathcal{M}_c$, $q$, $d_L$, sky) in the ti
 </div>
 </div>
 
-<!-- -->
+<!-- 
+Just discuss, no need for much detail here
+
+Connect bullet points with commas when speaking
+
+Stress important of infrastructure for future developments
+-->
 
 ---
 
@@ -1456,7 +1485,7 @@ AMPLFI delivers **full posteriors** ($\mathcal{M}_c$, $q$, $d_L$, sky) in the ti
 **AMPLFI:**
 - Posteriors broader than Bilby per event
 - No BNS/NSBH support yet
-- Precession and higher modes excluded
+- Posteriors unreliable outside prior range (very distant, very massive)
 
 </div>
 <div>
@@ -1476,7 +1505,9 @@ AMPLFI delivers **full posteriors** ($\mathcal{M}_c$, $q$, $d_L$, sky) in the ti
 </div>
 </div>
 
-<!-- -->
+<!-- 
+Just discuss, no need for much detail here
+-->
 
 ---
 
