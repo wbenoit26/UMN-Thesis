@@ -16,8 +16,6 @@ author: William W. Benoit
 
 ## Real-Time Gravitational Wave Detection and Source Characterization with Machine Learning
 
-<!-- <div class="rule"></div> -->
-
 ### **William W. Benoit**
 
 <style scoped>
@@ -1371,7 +1369,7 @@ This can just be read through
 - Aframe's detection was the first to reach GraceDB
 - AMPLFI sky map distributed via GCN within **~24 seconds**
 
-GCN Circular 41606 is the first time an ML pipeline triggered a preliminary alert.
+GCN Circular 41606 is the second time an ML pipeline triggered a preliminary alert &mdash; the first was also us, earlier that day.
 
 </div>
 <div>
@@ -1384,9 +1382,9 @@ GCN Circular 41606 is the first time an ML pipeline triggered a preliminary aler
 </div>
 
 <!-- 
-Read through until the last point, and then
+Read through all the points
 
-I actually double-checked, and this wasn't the first time a machine learning pipeline triggered a preliminary alert; the first time was also us, earlier the same day.
+Note that this was a high-significance event due to AMPLFI's sky localization
 -->
 
 ---
@@ -1519,8 +1517,9 @@ Just discuss, no need for much detail here
 <p class="rule">
 
 **Colleagues and Mentors:** 
-*MIT:* Ethan Marx, Deep Chatterjee, Alec Gunny, Erik Katsavounidis, Phil Harris, and the ML4GW team
-*UMN:* Kiet Pham, Alex Granados, Andrew Toivonen, Lexi Leali, Michael Davis, and the entire UMN group
+Ethan Marx, Deep Chatterjee, Alec Gunny, Erik Katsavounidis, Phil Harris 
+The ML4GW team
+The UMN gravitational wave group
 
 </p>
 <p class="rule">
@@ -1528,6 +1527,31 @@ Just discuss, no need for much detail here
 **Family:** Jess, Mom, Dad, Peter
 
 </p>
+
+<p class="rule">
+
+**Funding & Computing:** NSF PHY-2117997 &nbsp;·&nbsp; NSF PHY-2308862 &nbsp;·&nbsp; NSF PHY-2409481
+LIGO Laboratory &nbsp;·&nbsp; LIGO Data Grid &nbsp;·&nbsp; NCSA-Delta
+
+</p>
+
+<!-- 
+Before I take questions, there are a number of people I need to thank.
+
+First, my advisor Michael Coughlin, who has been an incredible mentor throughout my PhD and guided me in a way that made the process as stress-free as I think is possible. I've learned so much from working with you.
+
+I also want to thank my committee — Nadja Strobbe, Vuk Mandic, Mike Wilking, and Ray Liu — for taking the time to review my work and for being here today. In particular, I want to thank Vuk for welcoming me into the group when I first started, and for continuing to provide guidance in the years since.
+
+Next, the people I've worked with most closely: Ethan Marx, Deep Chatterjee, and Alec Gunny. All of these projects have been highly collaborative, and I couldn't have asked for better teammates. It would not have been possible without all of you.
+
+I also want to thank Erik Katsavounidis and Phil Harris for their mentorship and for the opportunities they've provided me over the years. More broadly, it's been genuinely exciting to help build something with the ML4GW team, and I'm looking forward to continuing to work on it in the future. 
+
+And to the group here at UMN: I'm sad to be leaving, but I appreciate the discussions I've had and the time I've spent here with you all.
+
+Finally, I want to thank my family: my partner Jess, who has supported me since I first started my grad school applications; and my mother, father, and brother Peter, who have encouraged me every step of the way.
+
+With that, thank you for your time, and I'll be happy to take any questions.
+-->
 
 ---
 
