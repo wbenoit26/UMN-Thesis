@@ -1201,7 +1201,7 @@ Just like with Aframe, we care about the longevity of AMPLFI, and we find that i
 
 <div class="rule"></div>
 
-*End-to-end production pipeline in LIGO O4c*
+*End-to-end production pipeline in O4c*
 
 <!-- 
 With this set of results, these models are production-capable.
@@ -1215,7 +1215,7 @@ I'll discuss how we set up the real-time analysis and present public results fro
 
 # Overview
 
-End-to-end production pipeline deployed **August &ndash; November 2025** (LIGO O4c)
+End-to-end production pipeline deployed **August &ndash; November 2025**
 
 <div class="alert-box">
 
@@ -1343,7 +1343,7 @@ Evaluating FAR using the 512 Hz statistic created events 6 times too often.  The
 </div>
 </div>
 
-- 1 non-detection: **power outage** at detector site
+- 1 non-detection: **power outage** at computing site
 - AMPLFI sky maps distributed via GCN for the **9 preferred events**
 - Participated in the **first CBC discovery by a neural network** in LVK production
 - Duty cycle and FAR requirements met throughout O4c
