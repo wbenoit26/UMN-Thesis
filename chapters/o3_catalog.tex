@@ -57,8 +57,8 @@ For this analysis, we train and validate \aframe using coincident strain data be
 The training procedure is the same as described in Ref.~\cite{aframe-methods}. 
 To summarize this procedure, the problem is framed as a supervised learning task where neural-network parameters are optimized by minimizing a binary cross entropy loss between labeled signals and noise. 
 Training batches are constructed by randomly sampling 1.5 second windows of real strain data with a sample rate of 2048\,Hz, and simulated signals are added into a fraction of the batch. 
-We utilize the \mlgw\footnote{https://github.com/ML4GW/ml4gw/} library for GPU accelerated power spectral density (PSD) estimation, data whitening, and projection of waveform polarizations onto the interferometers, enabling real time data augmentations. 
-In this work, training is distributed across 8 NVIDIA A100 GPUs on the Nautilus HyperCluster\footnote{https://nrp.ai/}. 
+We utilize the \mlgw\footnote{\url{https://github.com/ML4GW/ml4gw/}} library for GPU accelerated power spectral density (PSD) estimation, data whitening, and projection of waveform polarizations onto the interferometers, enabling real time data augmentations.
+In this work, training is distributed across 8 NVIDIA A100 GPUs on the Nautilus HyperCluster\footnote{\url{https://nrp.ai/}}. 
 The learning rate used in Ref.~\cite{aframe-methods} is scaled linearly by the number of GPUs to account for the effective increase in batch size from using multiple GPUs~\cite{lr_scaling}.
 
 The search is performed using public data across the entirety of O3~\cite{PhysRevD.102.062003, Acernese_2023} provided by the Gravitational Wave Open Science Center (GWOSC)~\cite{Abbott_2023_open_data}.

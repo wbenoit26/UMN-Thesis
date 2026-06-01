@@ -28,7 +28,7 @@ In Sec.~\ref{intro_sec:gr-source}, I will discuss sources of GWs with a focus on
 In Sec.~\ref{intro_sec:detectors}, I will discuss the operation of the LIGO interferometers.
 In Sec.~\ref{intro_sec:matched_filter}, I will describe matched filtering, the traditional technique used to search for GW signals in detector data.
 In Sec.~\ref{intro_sec:bayesian_pe}, I will introduce Bayesian parameter estimation, the standard framework for measuring source properties from detected GW signals.
-Matched filtering and Bayesian parameter estimation provide the baseline against which the ML methods in this dissertation are compared.
+Matched filtering and Bayesian parameter estimation provide the baseline against which the machine learning (ML) methods in this dissertation are compared.
 Finally, in Sec.~\ref{intro_sec:ml}, I will introduce the machine learning approaches used in this dissertation, motivating the algorithmic choices made in subsequent chapters.
 
 Chapter~\ref{chap:aframe_methods} introduces a machine learning-based method for the detection of gravitational waves from CBCs.
@@ -307,7 +307,7 @@ At intermediate frequencies (roughly 50--500\,Hz), the noise is dominated by a c
 At high frequencies ($\gtrsim 500$\,Hz), the sensitivity is limited almost entirely by quantum shot noise.
 The amplitude spectral density of the LIGO detectors during O4a, along with the Advanced LIGO design sensitivity, is shown in Fig.~\ref{intro_fig:asd_comparison}.
 
-\begin{figure}
+\begin{figure}[t]
     \centering
     \includegraphics[width=\textwidth]{figures/asd_comparison.pdf}
     \caption[Amplitude spectral density of the LIGO Hanford and Livingston detectors during O4a]{Amplitude spectral density of the LIGO Hanford (H1) and Livingston (L1) detectors estimated from a 2048-second segment during the fourth observing run (O4a), compared to the Advanced LIGO design sensitivity. 
@@ -408,7 +408,7 @@ This computational cost is the primary obstacle to rapid source characterization
 The traditional approaches described above -- matched filtering and Bayesian parameter estimation -- are well-founded and highly effective, but each faces practical limitations.
 Matched filtering is optimal when the signal model is known exactly and the noise is stationary and Gaussian; in practice, neither condition holds perfectly, as real detector noise shifts over time and contains non-Gaussian glitches.
 Bayesian PE, while statistically rigorous, is computationally expensive and too slow for full parameter estimation in real-time.
-Machine learning (ML) offers a complementary approach that addresses both limitations: it learns properties of signal-like and noise-like data from labeled examples rather than requiring an explicit signal model, and amortizes the cost of inference over a training phase so that individual events can be analyzed in seconds.
+Machine learning offers a complementary approach that addresses both limitations: it learns properties of signal-like and noise-like data from labeled examples rather than requiring an explicit signal model, and amortizes the cost of inference over a training phase so that individual events can be analyzed in seconds.
 
 A neural network classifier trained on realistic detector data, both with and without simulated signals, learns an internal representation of the data that can be used to predict whether a signal is present~\cite{PhysRevLett.120.141103}.
 This implicit encoding of signal morphology replaces the explicit template bank required by matched filtering.
