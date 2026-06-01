@@ -19,7 +19,7 @@ There are also plans for future ground-based detectors, Cosmic Explorer~\cite{Ev
 All of these detectors operate under the same principle, seeking to detect a change in the relative position of test masses as GWs pass through them.
 
 Over the past decade, as instruments have been upgraded and made more sensitive, the catalog of GW detections has grown.
-The LIGO-Virgo-KAGRA collaboration (LVK) has reported hundreds of signals from compact binary coalescences (CBCs)~\cite{LIGOScientific:2025slb}, most of which are BBHs, but a few come from neutron star -- black hole (NSBH) mergers, and two have come from a binary neutron star (BNS) merger~\cite{AbEA2017b}.
+The LIGO-Virgo-KAGRA collaboration (LVK) has reported hundreds of signals from compact binary coalescences (CBCs)~\cite{LIGOScientific:2025slb}, most of which are BBHs, but a few come from neutron star -- black hole (NSBH) mergers, and two have come from a binary neutron star (BNS) merger~\cite{AbEA2017b, Abbott_2020_bns}.
 The observation of the first BNS merger was a landmark event for astrophysics because it was observed not only via GWs, but also across the electromagnetic (EM) spectrum~\cite{AbEA2017f}.
 The scarcity of such a scientifically interesting phenomenon has motivated much of the work in this dissertation.
 
@@ -45,7 +45,7 @@ Chapter~\ref{chap:amplfi_results} demonstrates this algorithm's performance on m
 It is shown to have performance equivalent to existing low-latency methods for signal localization, and to have posteriors consistent with those of the full Bayesian parameter estimation done for the third gravitational wave transient catalog, GWTC-3.
 
 In Chapter~\ref{chap:online}, I discuss how the search and parameter estimation algorithms were combined into a real-time search.
-The two were deployed into a production setting at the end of August, 2025, joining the end of the final part of the fourth observing run, O4c.
+The two were deployed into a production setting at the end of August 2025, joining the end of the final part of the fourth observing run, O4c.
 Public results from that time period are presented.
 
 Finally, in Chapter~\ref{conclusion_chapter}, I highlight ongoing efforts to improve these tools and conclude with a discussion of prospects for the future.
@@ -302,7 +302,7 @@ These features are shown in Fig.~\ref{intro_fig:ligo_layout}.
 \end{figure}
 
 The sensitivity of the LIGO detectors is limited by different noise sources in different frequency bands~\cite{o4_performance}.
-At low frequencies ($\lesssim 50$\,Hz), the dominant noise source controls noise from suspension damping, though the Livingston detector noise also has a significant contribution from seimic activity in this frequency range.
+At low frequencies ($\lesssim 50$\,Hz), the dominant noise source is controls noise from suspension damping, though the Livingston detector noise also has a significant contribution from seismic activity in this frequency range.
 At intermediate frequencies (roughly 50--500\,Hz), the noise is dominated by a combination of thermal fluctuations in the mirror coatings and quantum shot noise, the statistical uncertainty in the number of photons detected at the output photodetector.
 At high frequencies ($\gtrsim 500$\,Hz), the sensitivity is limited almost entirely by quantum shot noise.
 The amplitude spectral density of the LIGO detectors during O4a, along with the Advanced LIGO design sensitivity, is shown in Fig.~\ref{intro_fig:asd_comparison}.

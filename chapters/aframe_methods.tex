@@ -154,13 +154,13 @@ So, during the signal generation process, we perform rejection sampling and keep
 This ensures that we can accurately evaluate sensitivity to an astrophysically motivated population without wasting computation on signals we do not expect to detect~\cite{ligo_scientific_collaboration_and_virgo_2023_7890437}. 
 Rejection sampling reduces the uncertainty of a sensitive volume estimate for a fixed amount of analyzed injections (see Sec.~\ref{aframe_meth_sec:sv-calc}). 
 In total, we generate $\sim 45,000,000$ waveforms. 
-Of these, $\sim3\%$ percent are used for testing and $\sim97\%$ are rejected. 
+Of these, $\sim3\%$ are used for testing and $\sim97\%$ are rejected. 
 
 We apply several data augmentation techniques during the training process with the goal of providing robust, high entropy data that encodes physics-based knowledge for discriminating signals from noise. 
 Below, we will describe how a training batch is composed, as well as the hyper-parameters that control the composition of the batches. 
 
 \textbf{Noise sampling.} \label{aframe_meth_sec:noise-sampling}
-Sampled at 2048\,Hz, the entire training dataset is unable to fit onto a single 16\,GB V100 GPU at once. 
+At a sampling rate of 2048\,Hz, the entire training dataset is unable to fit onto a single 16\,GB V100 GPU at once. 
 Thus, efficient out-of-memory data-loading is required to fully utilize the extent of our strain dataset. 
 To do this, we sample strain windows directly from disk during the training procedure. 
 The length of each noise window sampled from disk is 10.5\,s. 
@@ -212,8 +212,8 @@ Spin tilt & Sine & $(0, \pi)$ & rad.\\
 Relative spin azimuthal angle & Uniform & $(0, 2\pi)$ & rad.\\
 Spin phase angle & Uniform & $(0, 2\pi)$ & rad.\\
 Orbital phase & Uniform & $(0, 2\pi)$ & rad.\\
-Right ascension & $(0, 2\pi)$ & rad.\\
-Declination &Cosine & $(-\pi/2, \pi/2)$ & rad.\\
+Right ascension & Uniform & $(0, 2\pi)$ & rad.\\
+Declination & Cosine & $(-\pi/2, \pi/2)$ & rad.\\
 Inclination angle & Sine & $(0, \pi)$ & rad.\\
 \hline
 \hline
@@ -374,8 +374,8 @@ Errors on detection fraction estimates are smaller than the plotted points.}\lab
 \end{figure*}
 
 \section{Latency and Computational Requirements} \label{aframe_meth_sec:compute}
-Training the neural-network with a single NVIDIA 16\,GB Tesla V100 GPU takes approximately 43 hours, and once trained, the neural-network can continue to be used for months without retraining; see the discussion of algorithm longevity in Sec.~\ref{aframe_meth_sec:training} for details. 
-For inference, we utilize a Triton inference server~\cite{NVIDIA_Corporation_Triton_Inference_Server} that is hosted on a NVIDIA DGX server containing eight 16\,GB Tesla V100 GPUs (See Sec.~\ref{aframe_meth_sec:inference} for details on inference configuration). 
+Training the neural-network with a single NVIDIA 16\,GB Tesla V100 GPU takes approximately 43 hours, and once trained, the neural-network can continue to be used for months without retraining; see the discussion of algorithm longevity in Sec.~\ref{aframe_meth_sec:longevity} for details. 
+For inference, we utilize a Triton Inference Server~\cite{NVIDIA_Corporation_Triton_Inference_Server} that is hosted on a NVIDIA DGX server containing eight 16\,GB Tesla V100 GPUs (See Sec.~\ref{aframe_meth_sec:inference} for details on inference configuration). 
 Altogether, analyzing the one year of background data and one year of injections used in this analysis to create Fig.~\ref{aframe_meth_fig:sensitivity} takes approximately 4 hours, corresponding to a throughput of about 500 seconds of data from a two detector network analyzed per second per GPU. 
 Normalizing by the quantity of GPUs and number of interferometers in the analysis configuration, this corresponds to an order of magnitude improvement in throughput compared with previous work by Huerta et al~\cite{huerta2021}, a factor of $\sim2.5$ compared with Chatruvedi et al~\cite{Chaturvedi_2022} and a factor of $\sim1.5$ improvement compared with Tian et al~\cite{Tian_2024}. 
 This improvement is due to the use of a more efficient neural-network architecture, as well as the IaaS model described above. 
@@ -414,7 +414,7 @@ Integrating and aggregating network output & $3.42^{+0.02}_{-0.01} \times 10^{-1
 Identifying candidate events in integrated output & $1.40^{+0.62}_{-0.43} \times 10^{-4}$\\
 \hline
 
-Total & $3.114^{0.006}_{0.001}$\\
+Total & $3.114^{+0.006}_{-0.001}$\\
 \hline
 \hline
 \end{tabular*}

@@ -21,7 +21,7 @@ The alert distribution mechanisms, like NASA GCN\footnote{\url{https://gcn.nasa.
 Publicly available services like TreasureMap~\cite{2019GCN.26244....1W} have seen a steady adoption from observatories to share observed and scheduled fields to orchestrate observations. 
 Tools like SkyPortal~\cite{skyportal2019} and TOM-Toolkit~\cite{tom_toolkit} have been developed to aid target-of-opportunity followup. 
 
-All this development comes at a time when the number of GW discoveries have significantly increased corresponding to the improvement in sensitivity of Advanced LIGO~\cite{PhysRevD.102.062003, Aasi_2015}, Advanced Virgo~\cite{Acernese_2015}, and KAGRA~\cite{kagra} instruments, and the sensitivity of time-domain telescope facilities allow for unprecedented discovery rates. 
+All this development comes at a time when the number of GW discoveries has significantly increased corresponding to the improvement in sensitivity of Advanced LIGO~\cite{PhysRevD.102.062003, Aasi_2015}, Advanced Virgo~\cite{Acernese_2015}, and KAGRA~\cite{kagra} instruments, and the sensitivity of time-domain telescope facilities allow for unprecedented discovery rates. 
 However, identifying GW counterparts jointly has been extremely challenging. 
 The discovery of GWs and multi-wavelength EM emission from the merger of the binary neutron star (BNS), GW170817,~\cite{AbEA2017b, AbEA2017f} remains the first and only success story, albeit a rarity, with most subsequent candidates likely to be at much farther distances~\cite{2020NatAs...4..550C}. 
 
@@ -101,7 +101,7 @@ We also make some optimizations compared to previous efforts in light of an onli
 \end{figure}
 
 We use the \phenomd~phenomenological waveform model for our simulations~\cite{Khan:2015jqa}. 
-This waveform model contains the full inspiral-merger-ringdown physics, starting with the inspiral phase up to 3.5 post-newtonian order in GW phase (known as TaylorF2; see Ref.~\cite{Buonanno_2009} for a review), and using an ansatz for the merger and ringdown, fitting this ansatz to numerical relativity results. 
+This waveform model contains the full inspiral-merger-ringdown physics, starting with the inspiral phase up to 3.5 post-Newtonian order in GW phase (known as TaylorF2; see Ref.~\cite{Buonanno_2009} for a review), and using an ansatz for the merger and ringdown, fitting this ansatz to numerical relativity results. 
 One limitation of this waveform model is the restriction to aligned spins i.e. BH spin components perpendicular to the orbital plane and therefore no precession. 
 Current online PE using stochastic sampling techniques use the {\phenomp} waveform approximant, which contains precessing effects. 
 Furthermore, high mass BBH systems use the {\phenomxphm} approximant, which also includes higher modes of radiation. 
@@ -131,7 +131,7 @@ Though we show comparison with a single representative system in Fig.~\ref{amp_m
 \end{figure}
 
 Generally, neural-network models are trained using batches (also called mini-batches) of data that is pre-processed on the CPU and then transferred to the GPU (or other co-processor) to carry out the forward/backward passes and update the model weights.
-However, this may leave the GPU under utilized if the pre-processing and data transfer between the CPU/GPU takes greater time compared to the operations to train the model.
+However, this may leave the GPU underutilized if the pre-processing and data transfer between the CPU/GPU takes more time than the operations to train the model.
 This is especially important in the context of LFI since efficient training relies on providing unique combinations of parameters and data to approximate the distribution. 
 We therefore take a different approach by performing the data generation on the GPU, which allows generation of batches of data directly on the device, which is faster and avoids the data transfer overheads. 
 Additionally, all data pre-processing, such as Fourier transforms, power spectra estimation, and data whitening, are carried out on the GPU. 
@@ -140,7 +140,7 @@ Further, we take advantage of the fact that GPU architectures today provide larg
 Our workflow involves:
 \begin{itemize}
     \item Transferring a chunk of two detector (Hanford and Livingston, subsequently HL) time-domain strain data, typically quarter of a day, sampled at 2048 Hz to the GPU before commencing training. 
-    The power spectra is fit to this background chunk.
+    The power spectrum is fit to this background chunk.
     During training, $N$ small background chunks, each of 4-second duration, are loaded from the total training chunk, where $N$ is the training batch size.
     \item We generate $N$ points from our parameter prior and generate the \phenomd~waveforms directly on the GPU, as mentioned in section~\ref{amp_meth_sec:phenomd}. 
     This step is fast; for example, generating $N=1000$ waveforms takes $\sim 0.15$ seconds on a NVIDIA A40 GPU. 
@@ -155,7 +155,7 @@ We also note that though we have used GPUs as the co-processors in this work, ou
 \section{Embedding Network}
 \label{amp_meth_sec:embedding-net}
 The input to the neural network model is a 2-channel Hanford-Livingston (HL) 4-second whitened time-domain strain. 
-This is projected into a lower-dimensional representation using a embedding network before performing LFI.
+This is projected into a lower-dimensional representation using an embedding network before performing LFI.
 The coherent analysis of both channels of data is important for some aspects of GW parameter estimation, such as sky-localization, as they depend on the difference in time of arrival in the different instruments. 
 Our embedding network follows the ResNet architecture used in \aframe.
 The implementation closely resembles that of the \texttt{torchvision} library, with some differences.
@@ -246,7 +246,7 @@ i.e. the dimensionality of the expanded representation is $N\times D_{\gamma}$.
 We use a stochastic gradient descent optimizer and also sample over the learning rate, the weight decay and the momentum terms of the optimizer. 
 A total of $\sim 250$ training runs were performed using asynchronous hyperbanding with early-stopping~\cite{li2018massively} using the {\raytune} library~\cite{liaw2018tune}. 
 This technique stops poor-performing trials allowing more favorable trials to continue. We use a grace period of 3 epochs before half of ongoing trials are stopped. 
-The experiment was carried over 8 workers over 4 A40 GPU taking $\sim 40$ hours. 
+The experiment was carried out over 8 workers on 4 A40 GPUs, taking $\sim 40$ hours. 
 We show the top 10 trial configuration in Table~\ref{amp_meth_tab:embedding-hpo-table} and show the epoch-average VICReg validation loss for the same in the left panel of Fig.~\ref{amp_meth_fig:embedding-hpo-top-runs}. 
 The right panel of the figure shows the training/validation of the best model configuration trained until early-stopping condition is met.
 
@@ -287,7 +287,7 @@ weight decay and momentum parameters shown in Table~\ref{amp_meth_tab:flow-hpo-t
 This stops under-performing runs in favor of allowing better performing runs to continue. We carried out the HPO runs over 4 A40 GPUs which took $\sim 15$ hours. 
 The average validation loss over validation epoch for the top 5 runs are shown in the left panel of Fig.~\ref{amp_meth_fig:flow-hpo-top-runs}.
 The right panel of the figure shows the training/validation loss of the best model configuration trained until early-stopping condition is met.
-While all the runs were allowed to run for 30 epochs, most of them are stopped early. The validation loss for the top ten performing runs are shown in the figure.
+While all the runs were allowed to run for 30 epochs, most of them were stopped early. The validation loss for the top ten performing runs are shown in the figure.
 We use the topmost configuration in Table~\ref{amp_meth_tab:flow-hpo-table} for the results of the paper. 
 The training and validation for this configuration, trained until early-stopping is shown on right panel of Fig.~\ref{amp_meth_fig:flow-hpo-top-runs}.
 
@@ -353,7 +353,7 @@ In our experiments, we found the pre-training required only tens of epochs of tr
 
 \subsection{\label{amp_meth_sec:normalizing-flow}Autoregressive Flows for LFI}
 Our normalizing flow implementation uses inverse auto-regressive transforms~\cite{kingma2017improving}.
-This kind of auto-regressive transforms can be sampled in one forward pass. 
+This kind of auto-regressive transform can be sampled in one forward pass. 
 However, evaluating the density requires $D$-forward passes, where $D$ is the dimensionality of the parameter space.
 For this case, $D=8$ from Eq.~(\ref{eq:parameters}). 
 Masked auto-regressive transforms~\cite{papamakarios2018masked} use similar masked linear layers~\cite{pmlr-v37-germain15}, but the density evaluation takes a single forward pass and sampling is $D$-times as expensive. 

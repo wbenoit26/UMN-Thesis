@@ -2,7 +2,7 @@
 \label{chap:online}
 \begin{refsection}
 
-In this chapter, we describe the software architecture used to deploy the \aframe and \amplfi algorithms, which together form an end-to-end machine learning-based system for real time detection and parameter estimation of gravitational waves. 
+In this chapter, we describe the software architecture used to deploy the \aframe and \amplfi algorithms, which together form an end-to-end machine learning-based system for real-time detection and parameter estimation of gravitational waves. 
 We detail the production deployment of \aframe and \amplfi during the third part of the LIGO-Virgo-KAGRA collaboration's fourth observing run, and discuss the system's contributions to public alerts. 
 
 \section{Overview}
@@ -82,7 +82,7 @@ Spin tilt & Sine & $(0, \pi)$ & rad.\\
 Relative spin azimuthal angle & Uniform & $(0, 2\pi)$ & rad.\\
 Spin phase angle & Uniform & $(0, 2\pi)$ & rad.\\
 Orbital phase & Uniform & $(0, 2\pi)$ & rad.\\
-Right ascension & $(0, 2\pi)$ & rad.\\
+Right ascension & Uniform & $(0, 2\pi)$ & rad.\\
 Declination &Cosine & $(-\pi/2, \pi/2)$ & rad.\\
 Inclination angle & Sine & $(0, \pi)$ & rad.\\
 \hline
@@ -155,11 +155,11 @@ NGDD will also reduce transfer latency by delivering each chunk immediately as i
 \subsection{Data Quality}
 Data quality information for each interferometer is distributed in the same frame files as the GW strain via a separate time-series channel, known as a state vector. 
 The state vector is a time-series of bit masks where each bit ``flags" whether a specific quality of the detector is active. 
-Most important for real-time GW searches are the first two bits 
+Most important for real-time GW searches are the first two bits:
 
 \begin{itemize}
     \item \texttt{HOFT\_OK}: Indicates that the strain data was processed correctly
-    \item \texttt{OBSERVATION\_INTENT} Indicates the interferometer was placed in observation mode
+    \item \texttt{OBSERVATION\_INTENT}: Indicates the interferometer was placed in observation mode
 \end{itemize}
 
 
@@ -170,7 +170,7 @@ To perform inference \aframe requires at least 64 continuous seconds of analysis
 This ensures there is sufficient data to estimate the PSD for whitening. 
 When a frame is not analysis ready, the input strain data and neural network output buffers are reset. 
 Inference will restart once 64 seconds of continuous analysis ready data is accumulated.
-This PSD ``burn-in" period makes $\sim 1$ minute of data at the beginning of each coincident HL science-quality segment unable to be analyzed. 
+This PSD ``burn-in'' period makes $\sim 1$ minute of data at the beginning of each coincident HL science-quality segment unable to be analyzed. 
 In the future, using a PSD estimate from a previous segment, or using a smaller amount of data to estimate the PSD will increase the quantity of analyzable data. 
 
 \subsection{Resampling}
@@ -276,7 +276,7 @@ For an event with detection statistic $x$, the FAR of an event can be estimated 
     \mathrm{FAR}(x) = \frac{N_b(x)}{T_b}
 \end{equation}
 \noindent
-To estimate $N_b(x)$, \aframe analyzed 100 years of time-slide data from the O4b observing run. 
+To estimate $N_b(x)$, \aframe analyzed 100 years of time-slide data from the O4c observing run.
 During the O4c deployment, \aframe used a static noise distribution to estimate FAR's. 
 In the future, analyzing additional time-slides as data is accumulated during the run can account for changing noise in the detectors over time.
 

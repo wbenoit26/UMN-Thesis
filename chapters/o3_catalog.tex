@@ -5,7 +5,7 @@
 \begin{refsection}
 
 Using the \aframe model introduced in Chapter~\ref{chap:aframe_methods}, we conduct a search for stellar-mass binary black hole mergers in gravitational-wave data collected by the LIGO detectors during the LIGO-Virgo-KAGRA (LVK) third observing run (O3).
-The O3 observing run has been analyzed by the LVK collaboration, producing GWTC-3, the most recent catalog installment which was made publicly available in 2021. 
+The O3 observing run has been analyzed by the LVK collaboration, producing GWTC-3, which was made publicly available in 2021. 
 Various groups outside the LVK have re-analyzed O3 data using both traditional and machine learning (ML) approaches. 
 Here, we identify 38 candidates with probability of astrophysical origin ($p_\mathrm{astro}$) greater than 0.5, which were previously reported in GWTC-3. 
 This is comparable to the number of candidates reported by individual matched-filter searches. 
@@ -23,7 +23,7 @@ The international network of gravitational-wave detectors (Advanced LIGO~\cite{A
 Additional candidate events have been reported from non-LVK analyses in the IAS~\cite{ias_o3a, ias_o3b}, OGC~\cite{3-ogc, 4-ogc}, and AresGW~\cite{ares_gw_o3} catalogs, the last of which is another fully ML-based approach.
 These detections have enabled a broad range of studies, from measuring properties of the binary black hole populations and probing their formation channels to testing general relativity ~\cite{testing-gr, gwtc-3-astro}.
 A fourth observing run (O4) of the LVK commenced in May 2023 and completed in the fall of 2025~\cite{o4_plans}.
-Currently, LVK data from the first three observing runs, as well as the first part of O4, are in the public domain through the gravitational-wave open science center~\cite{Abbott_2023_open_data}.
+Currently, LVK data from the first three observing runs, as well as the first part of O4, are in the public domain through the Gravitational-Wave Open Science Center~\cite{Abbott_2023_open_data}.
 
 In this chapter, we perform an end-to-end analysis of the LVK's O3 observing run with \aframe~\cite{aframe-methods}, a machine learning algorithm for detecting binary black hole mergers. 
 We accumulate 100 years of background data by analyzing timeslides across the entire observing run to assign false alarm rates (FARs) to candidates, and perform the same sensitive volume analysis used to assess search pipeline sensitivity in the LVK's GWTC-3. 
@@ -208,7 +208,7 @@ In the rest of this section, we make comparisons of \aframe's search results wit
 We note that, when making these comparisons, we include candidates that may lie outside the training prior (Table~\ref{o3cat_tab:priors}) used for this search.
 
 \textbf{\emph{GWTC-3}} 70 candidates were reported in GWTC-3 from O3 with Hanford and Livingston data available. 
-Four matched-filtering pipelines, GstLAL~\cite{Ewing:2023qqe, Tsukada_2023}, MBTA~\cite{Aubin_2021}, PyCBC-broad, PyCBC-BBH~\cite{Dal_Canton_2021}, and one minimally modeled pipeline, cWB~\cite{DRAGO2021100678}, reported candidates. 
+Four matched-filtering pipelines, GstLAL~\cite{Ewing:2023qqe, Tsukada_2023}, MBTA~\cite{Aubin_2021}, PyCBC-Broad, PyCBC-BBH~\cite{Dal_Canton_2021}, and one minimally modeled pipeline, cWB~\cite{DRAGO2021100678}, reported candidates. 
 The criterion for inclusion in GWTC-3 was that \textit{any} of the five search pipelines reported a $p_{\mathrm{astro}} > 0.5$. 
 Therefore, it is expected that \aframe identifies fewer events with $p_{\mathrm{astro}} > 0.5$ than the union of all search pipelines, which is what we find. 
 Table~\ref{o3cat_tab:significant} contains 39 of the 70 Hanford/Livingston events reported in GWTC-3 that were also identified by \aframe as significant. 
@@ -244,7 +244,7 @@ In addition, Table~\ref{o3cat_tab:non_significant} lists 3 candidates first repo
 One such candidate, $\mathrm{GW}200109\_195634$, is found just below threshold with a $p_\mathrm{astro}$ of $0.44$. 
 For this candidate, although the IAS catalog reports a much more significant $p_\mathrm{astro}$, \aframe and the IAS report comparable FARs. 
 We perform parameter estimation for the two significant candidates. 
-Both $\mathrm{GW}190707\_083226$, and $\mathrm{GW}190818\_232544$ have primary mass posterior support in the upper mass gap ($~\sim45-135 M_\odot$) predicted by pulsational pair instability and pair instability supernovae~\cite{Woosley_2021}.
+Both $\mathrm{GW}190707\_083226$ and $\mathrm{GW}190818\_232544$ have primary mass posterior support in the upper mass gap ($\sim 45$-$135\,M_\odot$) predicted by pulsational pair instability and pair instability supernovae~\cite{Woosley_2021}.
 $\mathrm{GW}190707\_083226$ has effective spin consistent with zero, consistent with the bulk of the GWTC-3 population~\cite{gwtc-3-astro}, while $\mathrm{GW}190818\_232544$ confidently has $\chi_{\mathrm{eff}} \gtrsim 0.5$. 
 
 \textbf{\emph{OGC}} The 3-OGC and 4-OGC (henceforth OGC) catalogs identify 67 significant Hanford/Livingston candidates, 10 of which were reported for the first time by the OGC~\cite{3-ogc, 4-ogc}. 
